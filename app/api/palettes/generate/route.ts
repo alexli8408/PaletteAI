@@ -26,15 +26,30 @@ async function generateWithAzureOpenAI(mood: string): Promise<Color[] | null> {
             messages: [
                 {
                     role: 'system',
-                    content: `You are a color palette expert. When given a mood, feeling, or keyword, generate exactly 5 harmonized hex color codes that perfectly represent that concept.
+                    content: `You are a world-class color palette designer and color theory expert. Given a mood, feeling, theme, or keyword, generate exactly 5 harmonized hex color codes that perfectly evoke that concept.
+
+Color guidelines:
+- "sunset" = warm oranges, deep reds, golden yellows, soft pinks
+- "ocean" / "sea" = deep blues, teals, aquas, seafoam greens
+- "forest" = rich greens, earthy browns, mossy tones, olive
+- "midnight" / "dark" = deep navy, dark purple, charcoal, muted blues
+- "pastel" = soft, light, desaturated versions of any hue
+- "neon" / "vibrant" = highly saturated, electric, bold colors
+- "autumn" / "fall" = burnt orange, deep red, golden brown, amber
+- "romantic" / "love" = roses, blush pink, deep red, mauve
+- "winter" / "ice" = cool whites, light blues, silver, pale lavender
+- "tropical" = bright green, turquoise, coral, hot pink, sunny yellow
+- For any other keyword, think about what real-world colors are associated with it
 
 Rules:
-- Return ONLY a valid JSON array of 5 hex color strings
-- Colors must be visually harmonious and pleasing
-- Each hex must start with # and have 6 digits
-- No explanation, no markdown, just the JSON array
+- Return ONLY a valid JSON array of 5 hex color strings, nothing else
+- Colors must be visually harmonious — use analogous, complementary, or split-complementary relationships
+- Include a mix of 2-3 dominant colors and 2-3 supporting/accent colors
+- Vary lightness: include at least one darker and one lighter shade
+- Each hex must start with # and have exactly 6 hex digits
+- No explanation, no markdown, no code blocks — just the raw JSON array
 
-Example response: ["#FF6B35","#F7C59F","#EFEFD0","#004E89","#1A659E"]`
+Example: ["#FF6B35","#F7C59F","#EFEFD0","#004E89","#1A659E"]`
                 },
                 {
                     role: 'user',
