@@ -4,30 +4,31 @@ import { useState } from 'react';
 import { X, FileCode, FileJson, FileImage, Copy, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { exportAsCSS, exportAsJSON, exportAsSVG } from '@/lib/palette-utils';
+import type { ExportModalProps, ExportFormat } from '@/types';
 import styles from './ExportModal.module.css';
 
-export default function ExportModal({ palette, onClose }) {
-    const [activeTab, setActiveTab] = useState('css');
-    const [copied, setCopied] = useState(false);
+export default function ExportModal({ palette, onClose }: ExportModalProps): React.JSX.Element | null {
+    const [activeTab, setActiveTab] = useState<ExportFormat>('css');
+    const [copied, setCopied] = useState<boolean>(false);
 
     if (!palette) return null;
 
-    const exports = {
+    const exports: Record<ExportFormat, string> = {
         css: exportAsCSS(palette.colors, palette.name?.toLowerCase().replace(/\s+/g, '-') || 'palette'),
         json: exportAsJSON(palette.colors, palette.name || 'Palette'),
         svg: exportAsSVG(palette.colors),
     };
 
-    const handleCopy = () => {
+    const handleCopy = (): void => {
         navigator.clipboard.writeText(exports[activeTab]);
         setCopied(true);
         toast.success(`Copied ${activeTab.toUpperCase()} to clipboard`);
         setTimeout(() => setCopied(false), 2000);
     };
 
-    const handleDownload = () => {
-        const extensions = { css: 'css', json: 'json', svg: 'svg' };
-        const mimeTypes = { css: 'text/css', json: 'application/json', svg: 'image/svg+xml' };
+    const handleDownload = (): void => {
+        const extensions: Record<ExportFormat, string> = { css: 'css', json: 'json', svg: 'svg' };
+        const mimeTypes: Record<ExportFormat, string> = { css: 'text/css', json: 'application/json', svg: 'image/svg+xml' };
 
         const blob = new Blob([exports[activeTab]], { type: mimeTypes[activeTab] });
         const url = URL.createObjectURL(blob);

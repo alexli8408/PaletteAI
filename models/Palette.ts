@@ -1,6 +1,23 @@
-import mongoose from 'mongoose';
+import mongoose, { type Document, type Model } from 'mongoose';
 
-const ColorSchema = new mongoose.Schema({
+export interface IColor {
+    hex: string;
+    name: string;
+}
+
+export interface IPalette extends Document {
+    name: string;
+    colors: IColor[];
+    mood?: string;
+    source: 'ai' | 'image' | 'manual';
+    sourceImage?: string;
+    likes: number;
+    tags: string[];
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+const ColorSchema = new mongoose.Schema<IColor>({
     hex: {
         type: String,
         required: true,
@@ -12,7 +29,7 @@ const ColorSchema = new mongoose.Schema({
     },
 });
 
-const PaletteSchema = new mongoose.Schema({
+const PaletteSchema = new mongoose.Schema<IPalette>({
     name: {
         type: String,
         required: true,
@@ -23,7 +40,7 @@ const PaletteSchema = new mongoose.Schema({
         type: [ColorSchema],
         required: true,
         validate: {
-            validator: (v) => v.length >= 2 && v.length <= 10,
+            validator: (v: IColor[]) => v.length >= 2 && v.length <= 10,
             message: 'A palette must have between 2 and 10 colors.',
         },
     },
@@ -59,4 +76,6 @@ PaletteSchema.index({ createdAt: -1 });
 PaletteSchema.index({ tags: 1 });
 PaletteSchema.index({ mood: 'text', name: 'text' });
 
-export default mongoose.models.Palette || mongoose.model('Palette', PaletteSchema);
+const Palette: Model<IPalette> = mongoose.models.Palette || mongoose.model<IPalette>('Palette', PaletteSchema);
+
+export default Palette;

@@ -3,10 +3,11 @@
 import { useCallback } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { Upload, Image as ImageIcon } from 'lucide-react';
+import type { ImageDropzoneProps } from '@/types';
 import styles from './ImageDropzone.module.css';
 
-export default function ImageDropzone({ onImageUpload, isLoading }) {
-    const onDrop = useCallback((acceptedFiles) => {
+export default function ImageDropzone({ onImageUpload, isLoading }: ImageDropzoneProps): React.JSX.Element {
+    const onDrop = useCallback((acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
             onImageUpload(acceptedFiles[0]);
         }

@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import { Palette, Sparkles, LayoutGrid } from 'lucide-react';
 import styles from './Navbar.module.css';
 
-export default function Navbar() {
+export default function Navbar(): React.JSX.Element {
     const pathname = usePathname();
 
     return (

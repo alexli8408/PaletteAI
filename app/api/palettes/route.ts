@@ -1,9 +1,10 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Palette from '@/models/Palette';
+import type { Color } from '@/types';
 
 // GET /api/palettes — list palettes
-export async function GET(request) {
+export async function GET(request: NextRequest): Promise<NextResponse> {
     try {
         await connectDB();
 
@@ -11,14 +12,14 @@ export async function GET(request) {
         const sort = searchParams.get('sort') || 'recent';
         const tag = searchParams.get('tag');
         const search = searchParams.get('search');
-        const limit = Math.min(parseInt(searchParams.get('limit')) || 20, 50);
-        const page = Math.max(parseInt(searchParams.get('page')) || 1, 1);
+        const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 50);
+        const page = Math.max(parseInt(searchParams.get('page') || '1'), 1);
 
-        let query = {};
+        const query: Record<string, unknown> = {};
         if (tag) query.tags = tag;
         if (search) query.$text = { $search: search };
 
-        let sortObj = {};
+        let sortObj: Record<string, 1 | -1> = {};
         switch (sort) {
             case 'trending': sortObj = { likes: -1 }; break;
             case 'oldest': sortObj = { createdAt: 1 }; break;
@@ -44,11 +45,17 @@ export async function GET(request) {
 }
 
 // POST /api/palettes — save a palette
-export async function POST(request) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
         await connectDB();
 
-        const body = await request.json();
+        const body = await request.json() as {
+            name?: string;
+            colors?: Color[];
+            mood?: string;
+            source?: string;
+            tags?: string[];
+        };
         const { name, colors, mood, source, tags } = body;
 
         if (!name || !colors || colors.length < 2) {

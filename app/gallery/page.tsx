@@ -4,20 +4,23 @@ import { useState, useEffect } from 'react';
 import { Search, TrendingUp, Clock, Filter } from 'lucide-react';
 import PaletteCard from '@/components/PaletteCard';
 import { generateRandomPalette } from '@/lib/palette-utils';
+import type { Palette } from '@/types';
 import styles from './page.module.css';
 
-export default function GalleryPage() {
-    const [palettes, setPalettes] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [sort, setSort] = useState('recent');
-    const [search, setSearch] = useState('');
-    const [useFallback, setUseFallback] = useState(false);
+type SortOption = 'recent' | 'trending';
+
+export default function GalleryPage(): React.JSX.Element {
+    const [palettes, setPalettes] = useState<Palette[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [sort, setSort] = useState<SortOption>('recent');
+    const [search, setSearch] = useState<string>('');
+    const [useFallback, setUseFallback] = useState<boolean>(false);
 
     useEffect(() => {
         fetchPalettes();
     }, [sort]);
 
-    const fetchPalettes = async () => {
+    const fetchPalettes = async (): Promise<void> => {
         setIsLoading(true);
         try {
             const params = new URLSearchParams({ sort, limit: '20' });
@@ -31,18 +34,16 @@ export default function GalleryPage() {
                 setPalettes(data.palettes);
                 setUseFallback(false);
             } else {
-                // No palettes in DB yet — show demo palettes
                 loadDemoPalettes();
             }
         } catch {
-            // MongoDB not available — show demo palettes
             loadDemoPalettes();
         } finally {
             setIsLoading(false);
         }
     };
 
-    const loadDemoPalettes = () => {
+    const loadDemoPalettes = (): void => {
         const demoNames = [
             'Sunset Boulevard', 'Ocean Depths', 'Forest Canopy', 'Candy Shop',
             'Midnight Jazz', 'Autumn Harvest', 'Spring Blossom', 'Neon Nights',
@@ -54,24 +55,25 @@ export default function GalleryPage() {
             'earthy', 'cool', 'tropical', 'romantic',
         ];
 
-        const demos = demoNames.map((name, i) => ({
-            _id: null,
+        const demos: Palette[] = demoNames.map((name, i) => ({
             name,
             colors: generateRandomPalette(),
             mood: demoMoods[i],
+            source: 'ai' as const,
             likes: Math.floor(Math.random() * 80) + 5,
+            tags: [],
             createdAt: new Date(Date.now() - i * 86400000).toISOString(),
         }));
         setPalettes(demos);
         setUseFallback(true);
     };
 
-    const handleSearch = (e) => {
+    const handleSearch = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         fetchPalettes();
     };
 
-    const handleLike = async (id) => {
+    const handleLike = async (id: string): Promise<void> => {
         if (!id) return;
         try {
             await fetch(`/api/palettes/${id}`, {
@@ -90,13 +92,11 @@ export default function GalleryPage() {
     return (
         <div className={`page ${styles.page}`}>
             <div className="container">
-                {/* Header */}
                 <div className={styles.header}>
                     <h1 className={styles.title}>Palette Gallery</h1>
                     <p className={styles.subtitle}>Browse and discover beautiful color palettes</p>
                 </div>
 
-                {/* Controls */}
                 <div className={styles.controls}>
                     <form className={styles.searchForm} onSubmit={handleSearch}>
                         <Search size={18} className={styles.searchIcon} />
@@ -127,14 +127,12 @@ export default function GalleryPage() {
                     </div>
                 </div>
 
-                {/* Info banner for demo palettes */}
                 {useFallback && (
                     <div className={styles.infoBanner}>
                         ✨ Showing demo palettes. Save palettes from the generator to see them here!
                     </div>
                 )}
 
-                {/* Grid */}
                 {isLoading ? (
                     <div className={styles.loading}>
                         <div className={styles.spinner} />

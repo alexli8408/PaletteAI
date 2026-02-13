@@ -2,29 +2,34 @@
 
 import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Heart, Download, Copy, Check, Trash2 } from 'lucide-react';
+import { ArrowLeft, Heart, Download, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ColorSwatch from '@/components/ColorSwatch';
 import ExportModal from '@/components/ExportModal';
 import { getContrastRatio } from '@/lib/palette-utils';
+import type { Palette } from '@/types';
 import styles from './page.module.css';
 
-export default function PaletteDetailPage({ params }) {
+interface PaletteDetailPageProps {
+    params: Promise<{ id: string }>;
+}
+
+export default function PaletteDetailPage({ params }: PaletteDetailPageProps): React.JSX.Element {
     const { id } = use(params);
-    const [palette, setPalette] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-    const [showExport, setShowExport] = useState(false);
-    const [error, setError] = useState(null);
+    const [palette, setPalette] = useState<Palette | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [showExport, setShowExport] = useState<boolean>(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         fetchPalette();
     }, [id]);
 
-    const fetchPalette = async () => {
+    const fetchPalette = async (): Promise<void> => {
         try {
             const res = await fetch(`/api/palettes/${id}`);
             if (!res.ok) throw new Error('Not found');
-            const data = await res.json();
+            const data: Palette = await res.json();
             setPalette(data);
         } catch {
             setError('Palette not found');
@@ -33,7 +38,7 @@ export default function PaletteDetailPage({ params }) {
         }
     };
 
-    const handleLike = async () => {
+    const handleLike = async (): Promise<void> => {
         if (!palette) return;
         try {
             const res = await fetch(`/api/palettes/${id}`, {
@@ -41,7 +46,7 @@ export default function PaletteDetailPage({ params }) {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ action: 'like' }),
             });
-            const data = await res.json();
+            const data: Palette = await res.json();
             setPalette(data);
             toast.success('Liked!');
         } catch {
@@ -49,7 +54,7 @@ export default function PaletteDetailPage({ params }) {
         }
     };
 
-    const handleDelete = async () => {
+    const handleDelete = async (): Promise<void> => {
         if (!confirm('Delete this palette?')) return;
         try {
             await fetch(`/api/palettes/${id}`, { method: 'DELETE' });
@@ -91,12 +96,10 @@ export default function PaletteDetailPage({ params }) {
     return (
         <div className={`page ${styles.page}`}>
             <div className="container">
-                {/* Back link */}
                 <Link href="/gallery" className={styles.backLink}>
                     <ArrowLeft size={16} /> Back to Gallery
                 </Link>
 
-                {/* Header */}
                 <div className={styles.header}>
                     <div>
                         <h1 className={styles.title}>{palette.name}</h1>
@@ -118,14 +121,12 @@ export default function PaletteDetailPage({ params }) {
                     </div>
                 </div>
 
-                {/* Large Swatches */}
                 <div className={styles.swatches}>
                     {palette.colors.map((color, i) => (
                         <ColorSwatch key={i} hex={color.hex} name={color.name} size="large" />
                     ))}
                 </div>
 
-                {/* Contrast Grid */}
                 <div className={styles.section}>
                     <h2 className={styles.sectionTitle}>Contrast Grid</h2>
                     <div className={styles.contrastGrid}>
@@ -169,7 +170,6 @@ export default function PaletteDetailPage({ params }) {
                 </div>
             </div>
 
-            {/* Export Modal */}
             {showExport && (
                 <ExportModal
                     palette={palette}

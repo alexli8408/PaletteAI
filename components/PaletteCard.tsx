@@ -2,9 +2,10 @@
 
 import Link from 'next/link';
 import { Heart } from 'lucide-react';
+import type { PaletteCardProps } from '@/types';
 import styles from './PaletteCard.module.css';
 
-export default function PaletteCard({ palette, onLike }) {
+export default function PaletteCard({ palette, onLike }: PaletteCardProps): React.JSX.Element {
     const { _id, name, colors, mood, likes = 0 } = palette;
 
     return (
@@ -29,7 +30,7 @@ export default function PaletteCard({ palette, onLike }) {
                     className={styles.likeBtn}
                     onClick={(e) => {
                         e.preventDefault();
-                        onLike?.(_id);
+                        if (_id) onLike?.(_id);
                     }}
                     aria-label="Like palette"
                 >

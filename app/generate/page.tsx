@@ -1,24 +1,34 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles, Image as ImageIcon, Sliders, RefreshCw, Save, Download, Heart, Loader2 } from 'lucide-react';
+import { Sparkles, Image as ImageIcon, Sliders, RefreshCw, Save, Download, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ColorSwatch from '@/components/ColorSwatch';
 import ImageDropzone from '@/components/ImageDropzone';
 import ExportModal from '@/components/ExportModal';
 import { generateRandomPalette, getColorName } from '@/lib/palette-utils';
+import type { Color } from '@/types';
 import styles from './page.module.css';
 
-export default function GeneratePage() {
-    const [activeTab, setActiveTab] = useState('mood');
-    const [mood, setMood] = useState('');
-    const [palette, setPalette] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [showExport, setShowExport] = useState(false);
-    const [paletteName, setPaletteName] = useState('');
+interface GeneratedPalette {
+    name: string;
+    colors: Color[];
+    mood?: string;
+    source: string;
+}
+
+type TabId = 'mood' | 'image' | 'manual';
+
+export default function GeneratePage(): React.JSX.Element {
+    const [activeTab, setActiveTab] = useState<TabId>('mood');
+    const [mood, setMood] = useState<string>('');
+    const [palette, setPalette] = useState<GeneratedPalette | null>(null);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [showExport, setShowExport] = useState<boolean>(false);
+    const [paletteName, setPaletteName] = useState<string>('');
 
     // Mood / Keyword generation
-    const handleGenerate = async () => {
+    const handleGenerate = async (): Promise<void> => {
         if (!mood.trim()) {
             toast.error('Enter a mood or keyword');
             return;
@@ -34,7 +44,7 @@ export default function GeneratePage() {
 
             if (!res.ok) throw new Error('Failed to generate');
 
-            const data = await res.json();
+            const data: GeneratedPalette = await res.json();
             setPalette(data);
             setPaletteName(data.name || `${mood.trim()} Palette`);
             toast.success('Palette generated!');
@@ -47,7 +57,7 @@ export default function GeneratePage() {
     };
 
     // Image extraction
-    const handleImageUpload = async (file) => {
+    const handleImageUpload = async (file: File): Promise<void> => {
         setIsLoading(true);
         try {
             const formData = new FormData();
@@ -60,7 +70,7 @@ export default function GeneratePage() {
 
             if (!res.ok) throw new Error('Failed to extract');
 
-            const data = await res.json();
+            const data: GeneratedPalette = await res.json();
             setPalette(data);
             setPaletteName(data.name || 'Extracted Palette');
             toast.success('Colors extracted!');
@@ -73,7 +83,7 @@ export default function GeneratePage() {
     };
 
     // Manual color edit
-    const handleColorChange = (index, hex) => {
+    const handleColorChange = (index: number, hex: string): void => {
         if (!palette) return;
         const newColors = [...palette.colors];
         newColors[index] = { hex, name: getColorName(hex) };
@@ -81,7 +91,7 @@ export default function GeneratePage() {
     };
 
     // Random palette
-    const handleRandom = () => {
+    const handleRandom = (): void => {
         const colors = generateRandomPalette();
         setPalette({
             name: 'Random Palette',
@@ -94,7 +104,7 @@ export default function GeneratePage() {
     };
 
     // Save to gallery
-    const handleSave = async () => {
+    const handleSave = async (): Promise<void> => {
         if (!palette || !paletteName.trim()) {
             toast.error('Give your palette a name first');
             return;
@@ -122,10 +132,16 @@ export default function GeneratePage() {
         }
     };
 
-    const moodSuggestions = [
+    const moodSuggestions: string[] = [
         'sunset', 'ocean', 'forest', 'candy', 'midnight',
         'neon', 'retro', 'pastel', 'autumn', 'tropical',
         'luxury', 'minimal', 'romantic', 'winter', 'vibrant',
+    ];
+
+    const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
+        { id: 'mood', label: 'Mood / Keyword', icon: <Sparkles size={15} /> },
+        { id: 'image', label: 'Upload Image', icon: <ImageIcon size={15} /> },
+        { id: 'manual', label: 'Manual', icon: <Sliders size={15} /> },
     ];
 
     return (
@@ -145,11 +161,7 @@ export default function GeneratePage() {
                 {/* Tabs */}
                 <div className={styles.tabBar}>
                     <div className="tabs">
-                        {[
-                            { id: 'mood', label: 'Mood / Keyword', icon: <Sparkles size={15} /> },
-                            { id: 'image', label: 'Upload Image', icon: <ImageIcon size={15} /> },
-                            { id: 'manual', label: 'Manual', icon: <Sliders size={15} /> },
-                        ].map((tab) => (
+                        {tabs.map((tab) => (
                             <button
                                 key={tab.id}
                                 className={`tab ${activeTab === tab.id ? 'active' : ''}`}
@@ -193,7 +205,6 @@ export default function GeneratePage() {
                                         className={styles.suggestion}
                                         onClick={() => {
                                             setMood(s);
-                                            // Auto-generate
                                             setIsLoading(true);
                                             fetch('/api/palettes/generate', {
                                                 method: 'POST',
@@ -201,7 +212,7 @@ export default function GeneratePage() {
                                                 body: JSON.stringify({ mood: s }),
                                             })
                                                 .then((r) => r.json())
-                                                .then((data) => {
+                                                .then((data: GeneratedPalette) => {
                                                     setPalette(data);
                                                     setPaletteName(data.name || `${s} Palette`);
                                                     toast.success('Palette generated!');
@@ -235,7 +246,6 @@ export default function GeneratePage() {
                 {/* Result */}
                 {palette && (
                     <div className={styles.result}>
-                        {/* Palette name input */}
                         <div className={styles.nameRow}>
                             <input
                                 type="text"
@@ -259,7 +269,6 @@ export default function GeneratePage() {
                             </div>
                         </div>
 
-                        {/* Color Swatches */}
                         <div className={`${styles.swatches} stagger`}>
                             {palette.colors.map((color, i) => (
                                 <div key={i} className={styles.swatchWrapper}>

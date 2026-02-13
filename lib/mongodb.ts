@@ -1,18 +1,29 @@
-import mongoose from 'mongoose';
+import mongoose, { type Mongoose } from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/paletteai';
+const MONGODB_URI: string = process.env.MONGODB_URI || 'mongodb://localhost:27017/paletteai';
 
 if (!MONGODB_URI) {
     throw new Error('Please define the MONGODB_URI environment variable');
 }
 
-let cached = global.mongoose;
-
-if (!cached) {
-    cached = global.mongoose = { conn: null, promise: null };
+interface MongooseCache {
+    conn: Mongoose | null;
+    promise: Promise<Mongoose> | null;
 }
 
-async function connectDB() {
+/* eslint-disable no-var */
+declare global {
+    var mongoose: MongooseCache | undefined;
+}
+/* eslint-enable no-var */
+
+let cached: MongooseCache = global.mongoose ?? { conn: null, promise: null };
+
+if (!global.mongoose) {
+    global.mongoose = cached;
+}
+
+async function connectDB(): Promise<Mongoose> {
     if (cached.conn) {
         return cached.conn;
     }

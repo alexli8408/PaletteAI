@@ -1,9 +1,11 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Palette from '@/models/Palette';
 
+type RouteContext = { params: Promise<{ id: string }> };
+
 // GET /api/palettes/[id]
-export async function GET(request, { params }) {
+export async function GET(request: NextRequest, { params }: RouteContext): Promise<NextResponse> {
     try {
         await connectDB();
         const { id } = await params;
@@ -21,13 +23,13 @@ export async function GET(request, { params }) {
 }
 
 // PATCH /api/palettes/[id] — like a palette
-export async function PATCH(request, { params }) {
+export async function PATCH(request: NextRequest, { params }: RouteContext): Promise<NextResponse> {
     try {
         await connectDB();
         const { id } = await params;
-        const body = await request.json();
+        const body = await request.json() as { action?: 'like' | 'unlike' };
 
-        const update = {};
+        const update: Record<string, unknown> = {};
         if (body.action === 'like') {
             update.$inc = { likes: 1 };
         } else if (body.action === 'unlike') {
@@ -48,7 +50,7 @@ export async function PATCH(request, { params }) {
 }
 
 // DELETE /api/palettes/[id]
-export async function DELETE(request, { params }) {
+export async function DELETE(request: NextRequest, { params }: RouteContext): Promise<NextResponse> {
     try {
         await connectDB();
         const { id } = await params;

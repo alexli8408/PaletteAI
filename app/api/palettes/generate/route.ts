@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server';
-import { generatePaletteFromMood, generateRandomPalette } from '@/lib/palette-utils';
+import { NextRequest, NextResponse } from 'next/server';
+import { generatePaletteFromMood } from '@/lib/palette-utils';
 
-export async function POST(request) {
+export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
-        const { mood } = await request.json();
+        const { mood } = await request.json() as { mood?: string };
 
         if (!mood || typeof mood !== 'string') {
             return NextResponse.json({ error: 'Mood/keyword is required' }, { status: 400 });

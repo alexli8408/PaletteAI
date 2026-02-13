@@ -1,19 +1,25 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, type MouseEvent } from 'react';
 import { Copy, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { getTextColor, hexToRgb, hexToHsl } from '@/lib/palette-utils';
+import type { ColorSwatchProps } from '@/types';
 import styles from './ColorSwatch.module.css';
 
-export default function ColorSwatch({ hex, name, size = 'default', showInfo = true, onClick }) {
-    const [copied, setCopied] = useState(false);
+interface ExtendedColorSwatchProps extends ColorSwatchProps {
+    showInfo?: boolean;
+    onClick?: () => void;
+}
+
+export default function ColorSwatch({ hex, name, size = 'medium', showInfo = true, onClick }: ExtendedColorSwatchProps): React.JSX.Element {
+    const [copied, setCopied] = useState<boolean>(false);
 
     const textColor = getTextColor(hex);
     const rgb = hexToRgb(hex);
     const hsl = hexToHsl(hex);
 
-    const handleCopy = (e) => {
+    const handleCopy = (e: MouseEvent<HTMLButtonElement>): void => {
         e.stopPropagation();
         navigator.clipboard.writeText(hex);
         setCopied(true);
@@ -25,7 +31,7 @@ export default function ColorSwatch({ hex, name, size = 'default', showInfo = tr
         <div
             className={`${styles.swatch} ${styles[size]}`}
             style={{ backgroundColor: hex }}
-            onClick={onClick || handleCopy}
+            onClick={onClick || (() => { navigator.clipboard.writeText(hex); toast.success(`Copied ${hex}`); })}
         >
             {showInfo && (
                 <div className={styles.info} style={{ color: textColor }}>
