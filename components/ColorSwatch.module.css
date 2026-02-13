@@ -1,0 +1,130 @@
+.swatch {
+    position: relative;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+}
+
+.swatch:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Sizes */
+.default {
+    height: 120px;
+    flex: 1;
+    min-width: 80px;
+}
+
+.large {
+    height: 200px;
+    flex: 1;
+    min-width: 100px;
+}
+
+.small {
+    height: 60px;
+    flex: 1;
+    min-width: 50px;
+}
+
+.mini {
+    height: 40px;
+    width: 40px;
+    min-width: 40px;
+    flex: none;
+    border-radius: var(--radius-sm);
+}
+
+/* Info overlay */
+.info {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    opacity: 0;
+    transform: translateY(5px);
+    transition: all var(--transition-base);
+}
+
+.swatch:hover .info {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hex {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.name {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.details {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-top: 4px;
+}
+
+.copyBtn {
+    position: absolute;
+    top: var(--space-sm);
+    right: var(--space-sm);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    background: rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10px);
+    border: 1px solid transparent;
+    cursor: pointer;
+    opacity: 0;
+    transition: all var(--transition-base);
+}
+
+.swatch:hover .copyBtn {
+    opacity: 1;
+}
+
+.copyBtn:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.mini .info {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .default {
+        height: 80px;
+        min-width: 60px;
+    }
+
+    .large {
+        height: 140px;
+        min-width: 70px;
+    }
+
+    .info {
+        opacity: 1;
+        transform: none;
+    }
+
+    .copyBtn {
+        opacity: 1;
+    }
+}
