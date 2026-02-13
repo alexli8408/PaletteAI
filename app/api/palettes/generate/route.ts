@@ -39,6 +39,7 @@ Color guidelines:
 - "romantic" / "love" = roses, blush pink, deep red, mauve
 - "winter" / "ice" = cool whites, light blues, silver, pale lavender
 - "tropical" = bright green, turquoise, coral, hot pink, sunny yellow
+- If the input is a COLOR NAME (e.g. "red", "blue", "green", "purple"), generate 5 different shades, tints, and tones of that specific color — from dark to light
 - For any other keyword, think about what real-world colors are associated with it
 
 Rules:
