@@ -8,6 +8,7 @@ const AZURE_OPENAI_DEPLOYMENT = process.env.AZURE_OPENAI_DEPLOYMENT;
 
 async function generateWithAzureOpenAI(mood: string): Promise<Color[] | null> {
     if (!AZURE_OPENAI_ENDPOINT || !AZURE_OPENAI_KEY || !AZURE_OPENAI_DEPLOYMENT) {
+        console.log('Azure OpenAI not configured — missing env vars');
         return null;
     }
 
@@ -18,7 +19,7 @@ async function generateWithAzureOpenAI(mood: string): Promise<Color[] | null> {
             endpoint: AZURE_OPENAI_ENDPOINT,
             apiKey: AZURE_OPENAI_KEY,
             deployment: AZURE_OPENAI_DEPLOYMENT,
-            apiVersion: '2024-08-01-preview',
+            apiVersion: '2025-01-01-preview',
         });
 
         const response = await client.chat.completions.create({
@@ -74,8 +75,10 @@ Example: ["#FF6B35","#F7C59F","#EFEFD0","#004E89","#1A659E"]`
             .map(hex => ({ hex: hex.toLowerCase(), name: getColorName(hex) }));
 
         return colors.length >= 3 ? colors : null;
-    } catch (error) {
-        console.error('Azure OpenAI error:', error);
+    } catch (error: unknown) {
+        const msg = error instanceof Error ? error.message : String(error);
+        console.error('Azure OpenAI error:', msg);
+        console.error('Full error:', error);
         return null;
     }
 }

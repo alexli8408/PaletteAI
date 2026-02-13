@@ -168,6 +168,7 @@ export function generateSplitComplementary(hex: string): string[] {
 // --- Mood-based Palette Generation (fallback for when Azure is not configured) ---
 
 const MOOD_PALETTES: Record<string, () => string[]> = {
+    // Moods
     warm: () => generateFromHue(Math.random() * 40 + 10, 70, 55),
     cool: () => generateFromHue(Math.random() * 60 + 180, 60, 50),
     vibrant: () => generateFromHue(Math.random() * 360, 85, 55),
@@ -188,6 +189,29 @@ const MOOD_PALETTES: Record<string, () => string[]> = {
     minimal: () => generateFromHue(Math.random() * 360, 10, 60),
     romantic: () => generateFromHue(Math.random() * 30 + 330, 55, 65),
     tropical: () => generateFromHue(Math.random() * 50 + 140, 75, 55),
+    // Color names
+    red: () => generateFromHue(0, 75, 50),
+    orange: () => generateFromHue(25, 80, 55),
+    yellow: () => generateFromHue(50, 80, 55),
+    green: () => generateFromHue(120, 65, 45),
+    teal: () => generateFromHue(175, 60, 45),
+    blue: () => generateFromHue(220, 70, 50),
+    indigo: () => generateFromHue(250, 65, 40),
+    purple: () => generateFromHue(280, 65, 50),
+    pink: () => generateFromHue(330, 70, 65),
+    brown: () => generateFromHue(25, 50, 35),
+    black: () => generateFromHue(0, 5, 15),
+    white: () => generateFromHue(0, 5, 85),
+    gray: () => generateFromHue(0, 5, 50),
+    grey: () => generateFromHue(0, 5, 50),
+    gold: () => generateFromHue(45, 75, 50),
+    silver: () => generateFromHue(210, 10, 70),
+    coral: () => generateFromHue(15, 75, 60),
+    lavender: () => generateFromHue(270, 50, 70),
+    magenta: () => generateFromHue(310, 80, 50),
+    cyan: () => generateFromHue(185, 75, 50),
+    maroon: () => generateFromHue(0, 65, 30),
+    navy: () => generateFromHue(230, 70, 25),
 };
 
 function generateFromHue(baseHue: number, baseSat: number, baseLit: number): string[] {
