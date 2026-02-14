@@ -11,7 +11,6 @@ async function extractWithAzureVision(buffer: Buffer): Promise<Color[] | null> {
     }
 
     try {
-        // Use the REST API directly for image analysis
         const url = `${AZURE_VISION_ENDPOINT.replace(/\/$/, '')}/computervision/imageanalysis:analyze?features=color&api-version=2024-02-01`;
 
         const response = await fetch(url, {
@@ -64,24 +63,27 @@ async function extractWithAzureVision(buffer: Buffer): Promise<Color[] | null> {
             }
         }
 
-        // Pad to 5 colors if needed by generating variations
-        while (colors.length < 5 && colors.length > 0) {
-            const base = colors[colors.length - 1].hex;
-            const hsl = hexToHsl(base);
-            if (hsl) {
-                const varied = hslToHex(
-                    (hsl.h + 30 * colors.length) % 360,
-                    Math.max(20, hsl.s - 10),
-                    Math.min(85, hsl.l + 10)
-                );
-                if (!uniqueHexes.has(varied)) {
-                    uniqueHexes.add(varied);
-                    colors.push({ hex: varied, name: getColorName(varied) });
-                } else {
-                    break;
+        // Pad to 5 colors by generating tint/shade variations of existing colors
+        if (colors.length > 0 && colors.length < 5) {
+            const baseColors = [...colors];
+            let idx = 0;
+            while (colors.length < 5) {
+                const base = baseColors[idx % baseColors.length];
+                const hsl = hexToHsl(base.hex);
+                if (hsl) {
+                    // Alternate between lighter and darker shades of existing palette colors
+                    const direction = colors.length % 2 === 0 ? 1 : -1;
+                    const shift = 12 + (colors.length * 5);
+                    const newL = Math.max(15, Math.min(90, hsl.l + (direction * shift)));
+                    const newS = Math.max(15, Math.min(95, hsl.s - 5));
+                    const varied = hslToHex(hsl.h, newS, newL);
+                    if (!uniqueHexes.has(varied)) {
+                        uniqueHexes.add(varied);
+                        colors.push({ hex: varied, name: getColorName(varied) });
+                    }
                 }
-            } else {
-                break;
+                idx++;
+                if (idx > 20) break; // Safety valve
             }
         }
 
@@ -92,48 +94,95 @@ async function extractWithAzureVision(buffer: Buffer): Promise<Color[] | null> {
     }
 }
 
-// Map common CSS color names returned by Azure Vision to hex
+// Map CSS color names returned by Azure Vision to more accurate hex values
 function cssColorToHex(name: string): string | null {
     const map: Record<string, string> = {
-        black: '#000000', white: '#ffffff', red: '#ff0000', green: '#008000',
-        blue: '#0000ff', yellow: '#ffff00', orange: '#ffa500', purple: '#800080',
-        pink: '#ffc0cb', brown: '#a52a2a', gray: '#808080', grey: '#808080',
-        cyan: '#00ffff', magenta: '#ff00ff', teal: '#008080', navy: '#000080',
-        maroon: '#800000', olive: '#808000', lime: '#00ff00', aqua: '#00ffff',
-        silver: '#c0c0c0', coral: '#ff7f50', salmon: '#fa8072', gold: '#ffd700',
-        khaki: '#f0e68c', indigo: '#4b0082', violet: '#ee82ee', beige: '#f5f5dc',
-        ivory: '#fffff0', tan: '#d2b48c', sienna: '#a0522d', crimson: '#dc143c',
+        black: '#1a1a1a', white: '#f5f5f5', red: '#dc2626', green: '#16a34a',
+        blue: '#2563eb', yellow: '#eab308', orange: '#ea580c', purple: '#9333ea',
+        pink: '#ec4899', brown: '#92400e', gray: '#6b7280', grey: '#6b7280',
+        cyan: '#06b6d4', magenta: '#d946ef', teal: '#0d9488', navy: '#1e3a5f',
+        maroon: '#7f1d1d', olive: '#4d7c0f', lime: '#65a30d', aqua: '#22d3ee',
+        silver: '#9ca3af', coral: '#f97316', salmon: '#fb923c', gold: '#ca8a04',
+        khaki: '#bef264', indigo: '#4f46e5', violet: '#8b5cf6', beige: '#d6d3d1',
+        ivory: '#fafaf9', tan: '#a8a29e', sienna: '#b45309', crimson: '#be123c',
     };
     return map[name.toLowerCase()] || null;
 }
 
-// Fallback: extract colors from raw image buffer bytes
+// Fallback: extract average colors by sampling decoded pixel-like regions
+// Note: This works on raw buffer data — results are approximate since we're sampling
+// encoded bytes, not decoded pixels. It's a last resort when Azure Vision is unavailable.
 function extractColorsFromBuffer(buffer: Buffer): Color[] {
-    const colors: Color[] = [];
-    const step = Math.max(1, Math.floor(buffer.length / 6));
+    // Use a simple approach: sample evenly spaced groups of 3 bytes,
+    // then cluster them into 5 representative colors
+    const samples: { r: number; g: number; b: number }[] = [];
+    const sampleCount = 200;
+    const step = Math.max(3, Math.floor(buffer.length / sampleCount));
 
-    for (let i = 0; i < 5; i++) {
-        const offset = (i * step) % (buffer.length - 3);
-        const r = buffer[offset] || 128;
-        const g = buffer[offset + 1] || 128;
-        const b = buffer[offset + 2] || 128;
+    // Skip initial bytes (likely file headers)
+    const headerOffset = Math.min(100, Math.floor(buffer.length * 0.1));
 
-        const hex = '#' + [r, g, b].map(v => v.toString(16).padStart(2, '0')).join('');
-        const hsl = hexToHsl(hex);
-
-        if (hsl) {
-            const adjustedHex = hslToHex(
-                hsl.h,
-                Math.max(30, Math.min(85, hsl.s)),
-                Math.max(25, Math.min(75, hsl.l))
-            );
-            colors.push({ hex: adjustedHex, name: getColorName(adjustedHex) });
-        } else {
-            colors.push({ hex, name: getColorName(hex) });
-        }
+    for (let i = headerOffset; i < buffer.length - 2 && samples.length < sampleCount; i += step) {
+        samples.push({
+            r: buffer[i],
+            g: buffer[i + 1],
+            b: buffer[i + 2],
+        });
     }
 
-    return colors;
+    if (samples.length === 0) {
+        // Return a safe default
+        return generateDefaultPalette();
+    }
+
+    // Simple k-means-ish: divide samples into 5 buckets by sorting on hue
+    const hslSamples = samples.map(s => {
+        const r = s.r / 255, g = s.g / 255, b = s.b / 255;
+        const max = Math.max(r, g, b), min = Math.min(r, g, b);
+        let h = 0;
+        const l = (max + min) / 2;
+        const d = max - min;
+        const sat = d === 0 ? 0 : d / (1 - Math.abs(2 * l - 1));
+
+        if (d !== 0) {
+            switch (max) {
+                case r: h = ((g - b) / d + (g < b ? 6 : 0)) * 60; break;
+                case g: h = ((b - r) / d + 2) * 60; break;
+                case b: h = ((r - g) / d + 4) * 60; break;
+            }
+        }
+
+        return { h, s: sat * 100, l: l * 100 };
+    });
+
+    // Sort by hue and pick 5 evenly spaced
+    hslSamples.sort((a, b) => a.h - b.h);
+    const bucketSize = Math.floor(hslSamples.length / 5);
+    const colors: Color[] = [];
+
+    for (let i = 0; i < 5; i++) {
+        const bucket = hslSamples.slice(i * bucketSize, (i + 1) * bucketSize);
+        if (bucket.length === 0) continue;
+
+        const avgH = bucket.reduce((sum, c) => sum + c.h, 0) / bucket.length;
+        const avgS = bucket.reduce((sum, c) => sum + c.s, 0) / bucket.length;
+        const avgL = bucket.reduce((sum, c) => sum + c.l, 0) / bucket.length;
+
+        // Ensure the color is visually pleasant
+        const finalS = Math.max(25, Math.min(85, avgS));
+        const finalL = Math.max(20, Math.min(80, avgL));
+
+        const hex = hslToHex(Math.round(avgH), Math.round(finalS), Math.round(finalL));
+        colors.push({ hex, name: getColorName(hex) });
+    }
+
+    return colors.length >= 3 ? colors : generateDefaultPalette();
+}
+
+function generateDefaultPalette(): Color[] {
+    // A balanced neutral palette as ultimate fallback
+    const defaults = ['#4f46e5', '#7c3aed', '#ec4899', '#f59e0b', '#10b981'];
+    return defaults.map(hex => ({ hex, name: getColorName(hex) }));
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse> {

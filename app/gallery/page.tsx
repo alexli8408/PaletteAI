@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Search, TrendingUp, Clock, Filter } from 'lucide-react';
 import PaletteCard from '@/components/PaletteCard';
-import { generateRandomPalette } from '@/lib/palette-utils';
+import { generatePaletteFromMood } from '@/lib/palette-utils';
 import type { Palette } from '@/types';
 import styles from './page.module.css';
 
@@ -57,7 +57,7 @@ export default function GalleryPage(): React.JSX.Element {
 
         const demos: Palette[] = demoNames.map((name, i) => ({
             name,
-            colors: generateRandomPalette(),
+            colors: generatePaletteFromMood(demoMoods[i]),
             mood: demoMoods[i],
             source: 'ai' as const,
             likes: Math.floor(Math.random() * 80) + 5,

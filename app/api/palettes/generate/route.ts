@@ -58,8 +58,8 @@ Example: ["#FF6B35","#F7C59F","#EFEFD0","#004E89","#1A659E"]`
                     content: `Generate a beautiful 5-color palette for: "${mood}"`
                 }
             ],
-            temperature: 0.8,
-            max_tokens: 100,
+            temperature: 0.4,
+            max_tokens: 150,
         });
 
         const content = response.choices[0]?.message?.content?.trim();
