@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Toaster } from 'react-hot-toast';
 import Navbar from '@/components/Navbar';
+import AuthProvider from '@/components/AuthProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -13,21 +14,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
     return (
         <html lang="en">
             <body>
-                <Toaster
-                    position="bottom-right"
-                    toastOptions={{
-                        duration: 2500,
-                        style: {
-                            background: '#1a1a2e',
-                            color: '#f0f0f5',
-                            border: '1px solid rgba(255, 255, 255, 0.06)',
-                            borderRadius: '10px',
-                            fontSize: '0.9rem',
-                        },
-                    }}
-                />
-                <Navbar />
-                <main>{children}</main>
+                <AuthProvider>
+                    <Toaster
+                        position="bottom-right"
+                        toastOptions={{
+                            duration: 2500,
+                            style: {
+                                background: '#1a1a2e',
+                                color: '#f0f0f5',
+                                border: '1px solid rgba(255, 255, 255, 0.06)',
+                                borderRadius: '10px',
+                                fontSize: '0.9rem',
+                            },
+                        }}
+                    />
+                    <Navbar />
+                    <main>{children}</main>
+                </AuthProvider>
             </body>
         </html>
     );

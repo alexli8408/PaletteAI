@@ -13,6 +13,7 @@ export interface IPalette extends Document {
     sourceImage?: string;
     likes: number;
     tags: string[];
+    userId?: string;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -66,6 +67,10 @@ const PaletteSchema = new mongoose.Schema<IPalette>({
         trim: true,
         lowercase: true,
     }],
+    userId: {
+        type: String,
+        index: true,
+    },
 }, {
     timestamps: true,
 });

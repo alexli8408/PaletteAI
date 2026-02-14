@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Palette from '@/models/Palette';
+import { auth } from '@/lib/auth';
 import type { Color } from '@/types';
 
 // GET /api/palettes — list palettes
@@ -49,6 +50,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
         await connectDB();
 
+        const session = await auth();
         const body = await request.json() as {
             name?: string;
             colors?: Color[];
@@ -68,6 +70,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
             mood: mood?.trim(),
             source: source || 'manual',
             tags: tags || [],
+            userId: session?.user?.id,
         });
 
         return NextResponse.json(palette, { status: 201 });
