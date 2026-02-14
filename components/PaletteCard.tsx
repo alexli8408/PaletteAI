@@ -26,17 +26,19 @@ export default function PaletteCard({ palette, onLike, isLiked = false }: Palett
                     <h3 className={styles.name}>{name}</h3>
                     {mood && <span className={styles.mood}>{mood}</span>}
                 </div>
-                <button
-                    className={`${styles.likeBtn} ${isLiked ? styles.liked : ''}`}
-                    onClick={(e) => {
-                        e.preventDefault();
-                        if (_id) onLike?.(_id);
-                    }}
-                    aria-label={isLiked ? 'Unlike palette' : 'Like palette'}
-                >
-                    <Heart size={15} fill={isLiked ? 'currentColor' : 'none'} />
-                    <span>{likes}</span>
-                </button>
+                {_id && (
+                    <button
+                        className={`${styles.likeBtn} ${isLiked ? styles.liked : ''}`}
+                        onClick={(e) => {
+                            e.preventDefault();
+                            onLike?.(_id);
+                        }}
+                        aria-label={isLiked ? 'Unlike palette' : 'Like palette'}
+                    >
+                        <Heart size={15} fill={isLiked ? 'currentColor' : 'none'} />
+                        <span>{likes}</span>
+                    </button>
+                )}
             </div>
             <div className={styles.hexRow}>
                 {colors.map((color, i) => (
