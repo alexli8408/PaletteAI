@@ -5,7 +5,7 @@ import { Heart } from 'lucide-react';
 import type { PaletteCardProps } from '@/types';
 import styles from './PaletteCard.module.css';
 
-export default function PaletteCard({ palette, onLike }: PaletteCardProps): React.JSX.Element {
+export default function PaletteCard({ palette, onLike, isLiked = false }: PaletteCardProps): React.JSX.Element {
     const { _id, name, colors, mood, likes = 0 } = palette;
 
     return (
@@ -27,14 +27,14 @@ export default function PaletteCard({ palette, onLike }: PaletteCardProps): Reac
                     {mood && <span className={styles.mood}>{mood}</span>}
                 </div>
                 <button
-                    className={styles.likeBtn}
+                    className={`${styles.likeBtn} ${isLiked ? styles.liked : ''}`}
                     onClick={(e) => {
                         e.preventDefault();
                         if (_id) onLike?.(_id);
                     }}
-                    aria-label="Like palette"
+                    aria-label={isLiked ? 'Unlike palette' : 'Like palette'}
                 >
-                    <Heart size={15} />
+                    <Heart size={15} fill={isLiked ? 'currentColor' : 'none'} />
                     <span>{likes}</span>
                 </button>
             </div>

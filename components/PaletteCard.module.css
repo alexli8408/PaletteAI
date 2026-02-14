@@ -80,6 +80,10 @@
     background: rgba(236, 72, 153, 0.1);
 }
 
+.liked {
+    color: #ec4899;
+}
+
 .hexRow {
     display: flex;
     gap: var(--space-xs);

@@ -1,7 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import { Search, TrendingUp, Clock, Filter } from 'lucide-react';
+import toast from 'react-hot-toast';
 import PaletteCard from '@/components/PaletteCard';
 import { generatePaletteFromMood } from '@/lib/palette-utils';
 import type { Palette } from '@/types';
@@ -10,15 +12,30 @@ import styles from './page.module.css';
 type SortOption = 'recent' | 'trending';
 
 export default function GalleryPage(): React.JSX.Element {
+    const { data: session } = useSession();
     const [palettes, setPalettes] = useState<Palette[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [sort, setSort] = useState<SortOption>('recent');
     const [search, setSearch] = useState<string>('');
     const [useFallback, setUseFallback] = useState<boolean>(false);
+    const [likedIds, setLikedIds] = useState<Set<string>>(new Set());
 
     useEffect(() => {
         fetchPalettes();
     }, [sort]);
+
+    // Extract liked palette IDs from fetched data
+    useEffect(() => {
+        if (session?.user?.id && palettes.length > 0) {
+            const liked = new Set<string>();
+            for (const p of palettes) {
+                if (p._id && p.likedBy?.includes(session.user.id)) {
+                    liked.add(p._id);
+                }
+            }
+            setLikedIds(liked);
+        }
+    }, [palettes, session?.user?.id]);
 
     const fetchPalettes = async (): Promise<void> => {
         setIsLoading(true);
@@ -60,7 +77,7 @@ export default function GalleryPage(): React.JSX.Element {
             colors: generatePaletteFromMood(demoMoods[i]),
             mood: demoMoods[i],
             source: 'ai' as const,
-            likes: Math.floor(Math.random() * 80) + 5,
+            likes: 0,
             tags: [],
             createdAt: new Date(Date.now() - i * 86400000).toISOString(),
         }));
@@ -75,17 +92,45 @@ export default function GalleryPage(): React.JSX.Element {
 
     const handleLike = async (id: string): Promise<void> => {
         if (!id) return;
+
+        if (!session?.user) {
+            toast.error('Sign in to like palettes');
+            return;
+        }
+
         try {
-            await fetch(`/api/palettes/${id}`, {
+            const res = await fetch(`/api/palettes/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'like' }),
+                body: JSON.stringify({ action: 'toggle' }),
             });
+
+            if (res.status === 401) {
+                toast.error('Sign in to like palettes');
+                return;
+            }
+
+            if (!res.ok) throw new Error('Failed to like');
+
+            const data = await res.json();
+
+            // Update likes in state
             setPalettes((prev) =>
-                prev.map((p) => (p._id === id ? { ...p, likes: p.likes + 1 } : p))
+                prev.map((p) => (p._id === id ? { ...p, likes: data.likes } : p))
             );
+
+            // Update liked set
+            setLikedIds((prev) => {
+                const next = new Set(prev);
+                if (data.liked) {
+                    next.add(id);
+                } else {
+                    next.delete(id);
+                }
+                return next;
+            });
         } catch {
-            // Ignore
+            toast.error('Failed to update like');
         }
     };
 
@@ -145,6 +190,7 @@ export default function GalleryPage(): React.JSX.Element {
                                 key={palette._id || i}
                                 palette={palette}
                                 onLike={handleLike}
+                                isLiked={palette._id ? likedIds.has(palette._id) : false}
                             />
                         ))}
                     </div>

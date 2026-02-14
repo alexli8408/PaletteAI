@@ -16,6 +16,7 @@ export interface Palette {
     mood?: string;
     source: 'ai' | 'image' | 'manual';
     likes: number;
+    likedBy?: string[];
     tags: string[];
     createdAt?: string;
     updatedAt?: string;
@@ -65,6 +66,7 @@ export interface ColorSwatchProps {
 export interface PaletteCardProps {
     palette: Palette;
     onLike?: (id: string) => void;
+    isLiked?: boolean;
 }
 
 export interface ImageDropzoneProps {

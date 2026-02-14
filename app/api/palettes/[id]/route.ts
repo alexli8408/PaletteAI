@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import Palette from '@/models/Palette';
+import { auth } from '@/lib/auth';
 
 type RouteContext = { params: Promise<{ id: string }> };
 
@@ -22,27 +23,43 @@ export async function GET(request: NextRequest, { params }: RouteContext): Promi
     }
 }
 
-// PATCH /api/palettes/[id] — like a palette
+// PATCH /api/palettes/[id] — toggle like (auth required)
 export async function PATCH(request: NextRequest, { params }: RouteContext): Promise<NextResponse> {
     try {
         await connectDB();
-        const { id } = await params;
-        const body = await request.json() as { action?: 'like' | 'unlike' };
 
-        const update: Record<string, unknown> = {};
-        if (body.action === 'like') {
-            update.$inc = { likes: 1 };
-        } else if (body.action === 'unlike') {
-            update.$inc = { likes: -1 };
+        const session = await auth();
+        if (!session?.user?.id) {
+            return NextResponse.json({ error: 'Sign in to like palettes' }, { status: 401 });
         }
 
-        const palette = await Palette.findByIdAndUpdate(id, update, { new: true }).lean();
+        const { id } = await params;
+        const userId = session.user.id;
 
+        const palette = await Palette.findById(id);
         if (!palette) {
             return NextResponse.json({ error: 'Palette not found' }, { status: 404 });
         }
 
-        return NextResponse.json(palette);
+        const alreadyLiked = palette.likedBy?.includes(userId);
+
+        if (alreadyLiked) {
+            // Unlike
+            palette.likedBy = palette.likedBy.filter((uid: string) => uid !== userId);
+            palette.likes = Math.max(0, palette.likes - 1);
+        } else {
+            // Like
+            if (!palette.likedBy) palette.likedBy = [];
+            palette.likedBy.push(userId);
+            palette.likes += 1;
+        }
+
+        await palette.save();
+
+        return NextResponse.json({
+            likes: palette.likes,
+            liked: !alreadyLiked,
+        });
     } catch (error) {
         console.error('Update palette error:', error);
         return NextResponse.json({ error: 'Failed to update palette' }, { status: 500 });
