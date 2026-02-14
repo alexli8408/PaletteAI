@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Sparkles, Image as ImageIcon, Download, Wand2, ArrowRight, Zap, Palette, Eye } from 'lucide-react';
-import { generateRandomPalette } from '@/lib/palette-utils';
+import { generatePaletteFromMood } from '@/lib/palette-utils';
 import PaletteCard from '@/components/PaletteCard';
 import type { Color, Palette as PaletteType } from '@/types';
 import styles from './page.module.css';
@@ -19,20 +19,27 @@ export default function HomePage(): React.JSX.Element {
     const [heroColors, setHeroColors] = useState<Color[]>([]);
 
     useEffect(() => {
-        const palettes: PaletteType[] = Array.from({ length: 6 }, (_, i) => ({
-            name: ['Sunset Glow', 'Ocean Breeze', 'Forest Mist', 'Candy Dream', 'Midnight Sky', 'Autumn Leaves'][i],
-            colors: generateRandomPalette(),
-            mood: ['warm', 'cool', 'forest', 'candy', 'midnight', 'autumn'][i],
+        const moods = ['sunset', 'ocean', 'forest', 'candy', 'midnight', 'autumn'];
+        const names = ['Sunset Glow', 'Ocean Breeze', 'Forest Mist', 'Candy Dream', 'Midnight Sky', 'Autumn Leaves'];
+        const palettes: PaletteType[] = moods.map((mood, i) => ({
+            name: names[i],
+            colors: generatePaletteFromMood(mood),
+            mood,
             source: 'ai' as const,
-            likes: Math.floor(Math.random() * 50) + 5,
+            likes: 0,
             tags: [],
         }));
         setDemoPalettes(palettes);
-        setHeroColors(generateRandomPalette());
+        setHeroColors(generatePaletteFromMood('vibrant'));
     }, []);
 
+    const heroMoods = ['vibrant', 'ocean', 'sunset', 'tropical', 'neon', 'romantic'];
+    const [heroMoodIndex, setHeroMoodIndex] = useState(0);
+
     const regenerateHero = (): void => {
-        setHeroColors(generateRandomPalette());
+        const nextIndex = (heroMoodIndex + 1) % heroMoods.length;
+        setHeroMoodIndex(nextIndex);
+        setHeroColors(generatePaletteFromMood(heroMoods[nextIndex]));
     };
 
     const features: Feature[] = [
