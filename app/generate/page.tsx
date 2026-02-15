@@ -154,7 +154,7 @@ export default function GeneratePage(): React.JSX.Element {
                         PaletteAI
                     </h1>
                     <p className={styles.subtitle}>
-                        Describe a mood, upload an image, or create manually
+                        Enter a keyword, upload an image, or create manually
                     </p>
                 </div>
 
@@ -182,7 +182,7 @@ export default function GeneratePage(): React.JSX.Element {
                                 <input
                                     type="text"
                                     className="input"
-                                    placeholder="Enter a mood, feeling, or keyword... (e.g. sunset, ocean, cozy)"
+                                    placeholder="Enter a keyword..."
                                     value={mood}
                                     onChange={(e) => setMood(e.target.value)}
                                     onKeyDown={(e) => e.key === 'Enter' && handleGenerate()}
