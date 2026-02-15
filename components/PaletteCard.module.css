@@ -33,9 +33,6 @@
 }
 
 .footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     padding: var(--space-md) var(--space-md) var(--space-xs);
 }
 
@@ -59,29 +56,6 @@
 .mood {
     font-size: 0.75rem;
     color: var(--text-tertiary);
-}
-
-.likeBtn {
-    display: flex;
-    align-items: center;
-    gap: var(--space-xs);
-    padding: 0.35rem 0.7rem;
-    border-radius: var(--radius-full);
-    color: var(--text-secondary);
-    font-size: 0.8rem;
-    transition: all var(--transition-base);
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.likeBtn:hover {
-    color: #ec4899;
-    background: rgba(236, 72, 153, 0.1);
-}
-
-.liked {
-    color: #ec4899;
 }
 
 .hexRow {

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Heart, Download, Trash2 } from 'lucide-react';
+import { ArrowLeft, Download, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ColorSwatch from '@/components/ColorSwatch';
 import ExportModal from '@/components/ExportModal';
@@ -35,22 +35,6 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
             setError('Palette not found');
         } finally {
             setIsLoading(false);
-        }
-    };
-
-    const handleLike = async (): Promise<void> => {
-        if (!palette) return;
-        try {
-            const res = await fetch(`/api/palettes/${id}`, {
-                method: 'PATCH',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'like' }),
-            });
-            const data: Palette = await res.json();
-            setPalette(data);
-            toast.success('Liked!');
-        } catch {
-            toast.error('Failed to like');
         }
     };
 
@@ -108,10 +92,6 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
                         )}
                     </div>
                     <div className={styles.actions}>
-                        <button className="btn btn-secondary" onClick={handleLike}>
-                            <Heart size={16} />
-                            {palette.likes || 0}
-                        </button>
                         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>
                             <Download size={16} /> Export
                         </button>

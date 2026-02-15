@@ -11,8 +11,6 @@ export interface IPalette extends Document {
     mood?: string;
     source: 'ai' | 'image' | 'manual' | 'fallback' | 'image-ai' | 'image-fallback';
     sourceImage?: string;
-    likes: number;
-    likedBy: string[];
     tags: string[];
     userId?: string;
     createdAt: Date;
@@ -59,13 +57,6 @@ const PaletteSchema = new mongoose.Schema<IPalette>({
     sourceImage: {
         type: String,
     },
-    likes: {
-        type: Number,
-        default: 0,
-    },
-    likedBy: [{
-        type: String,
-    }],
     tags: [{
         type: String,
         trim: true,
@@ -80,7 +71,6 @@ const PaletteSchema = new mongoose.Schema<IPalette>({
 });
 
 // Indexes for common queries
-PaletteSchema.index({ likes: -1 });
 PaletteSchema.index({ createdAt: -1 });
 PaletteSchema.index({ tags: 1 });
 PaletteSchema.index({ mood: 'text', name: 'text' });

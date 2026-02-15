@@ -15,8 +15,6 @@ export interface Palette {
     colors: Color[];
     mood?: string;
     source: 'ai' | 'image' | 'manual' | 'fallback' | 'image-ai' | 'image-fallback';
-    likes: number;
-    likedBy?: string[];
     tags: string[];
     createdAt?: string;
     updatedAt?: string;
@@ -24,7 +22,6 @@ export interface Palette {
 
 /** Query params for the GET /api/palettes route */
 export interface PaletteQueryParams {
-    sort?: 'recent' | 'trending' | 'name';
     limit?: number;
     page?: number;
     search?: string;
@@ -65,8 +62,6 @@ export interface ColorSwatchProps {
 
 export interface PaletteCardProps {
     palette: Palette;
-    onLike?: (id: string) => void;
-    isLiked?: boolean;
 }
 
 export interface ImageDropzoneProps {
