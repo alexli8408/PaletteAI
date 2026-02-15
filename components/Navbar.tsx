@@ -48,7 +48,7 @@ export default function Navbar(): React.JSX.Element {
                         className={`${styles.link} ${pathname === '/gallery' ? styles.active : ''}`}
                     >
                         <LayoutGrid size={16} />
-                        <span>Gallery</span>
+                        <span>Saved Palettes</span>
                     </Link>
                 </div>
 

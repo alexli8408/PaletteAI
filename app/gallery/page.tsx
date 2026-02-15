@@ -46,8 +46,7 @@ export default function GalleryPage(): React.JSX.Element {
         <div className={`page ${styles.page}`}>
             <div className="container">
                 <div className={styles.header}>
-                    <h1 className={styles.title}>My Palettes</h1>
-                    <p className={styles.subtitle}>Your saved color palettes</p>
+                    <h1 className={styles.title}>Saved Palettes</h1>
                 </div>
 
                 {authStatus === 'unauthenticated' && (
