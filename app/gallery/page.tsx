@@ -46,7 +46,7 @@ export default function GalleryPage(): React.JSX.Element {
         <div className={`page ${styles.page}`}>
             <div className="container">
                 <div className={styles.header}>
-                    <h1 className={styles.title}>Saved Palettes</h1>
+                    <h1 className={styles.title}>Saved</h1>
                 </div>
 
                 {authStatus === 'unauthenticated' && (

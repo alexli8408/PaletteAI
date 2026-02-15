@@ -151,7 +151,7 @@ export default function GeneratePage(): React.JSX.Element {
                 <div className={styles.header}>
                     <h1 className={styles.title}>
                         <Sparkles size={28} className={styles.titleIcon} />
-                        Palette Generator
+                        PaletteAI
                     </h1>
                     <p className={styles.subtitle}>
                         Describe a mood, upload an image, or create manually
