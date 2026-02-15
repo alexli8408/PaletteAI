@@ -198,35 +198,43 @@
 
 .contrastTitle {
     font-family: var(--font-display);
-    font-size: 1rem;
+    font-size: 1.3rem;
     font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-lg);
 }
 
 .contrastGrid {
-    display: inline-grid;
-    grid-template-columns: 36px repeat(5, 52px);
+    display: inline-flex;
+    flex-direction: column;
     gap: 2px;
     background: var(--bg-glass);
-    border-radius: var(--radius-md);
-    overflow: hidden;
     border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: var(--space-sm);
+    overflow-x: auto;
 }
 
-.contrastHeader,
-.contrastRow {
-    display: contents;
+.contrastHeader {
+    display: flex;
+    gap: 2px;
 }
 
 .contrastCorner {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.contrastRow {
+    display: flex;
+    gap: 2px;
 }
 
 .contrastLabel {
-    width: 100%;
-    height: 36px;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -234,51 +242,47 @@
 }
 
 .contrastCell {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 0.7rem;
     font-weight: 600;
-    height: 36px;
+    font-family: var(--font-display);
 }
 
 .pass {
-    background: rgba(16, 185, 129, 0.15);
-    color: #10b981;
+    background: rgba(34, 197, 94, 0.15);
+    color: #4ade80;
 }
 
 .fail {
     background: rgba(239, 68, 68, 0.1);
-    color: #ef4444;
+    color: #f87171;
 }
 
 .contrastLegend {
     display: flex;
     gap: var(--space-lg);
-    margin-top: var(--space-sm);
-    font-size: 0.75rem;
-    color: var(--text-tertiary);
+    margin-top: var(--space-md);
 }
 
 .legendItem {
     display: flex;
     align-items: center;
-    gap: 0.3rem;
+    gap: var(--space-sm);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
 }
 
 .legendDot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    border-radius: var(--radius-sm);
     display: inline-block;
-}
-
-.legendDot.pass {
-    background: #10b981;
-}
-
-.legendDot.fail {
-    background: #ef4444;
 }
 
 /* Responsive */
