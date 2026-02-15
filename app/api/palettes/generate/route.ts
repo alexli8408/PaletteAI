@@ -27,9 +27,20 @@ async function generateWithAzureOpenAI(mood: string): Promise<Color[] | null> {
             messages: [
                 {
                     role: 'system',
-                    content: `You are a world-class color palette designer and color theory expert. Given a mood, feeling, theme, or keyword, generate exactly 5 harmonized hex color codes that perfectly evoke that concept.
+                    content: `You are a world-class color palette designer and color theory expert. Given a mood, feeling, theme, keyword, or NAME, generate exactly 5 harmonized hex color codes that perfectly evoke that concept.
 
-Color guidelines:
+IMPORTANT: If the input is a CHARACTER NAME (from anime, movies, games, comics, TV shows, books, etc.), think about that character's VISUAL IDENTITY:
+- Their signature colors (hair, eyes, outfit, powers, aura)
+- The color palette of their most iconic scenes
+- The emotional tone associated with them
+For example:
+- "Ryomen Sukuna" = deep crimson reds, blood red, dark scarlet, fiery orange-red (his cursed energy, tattoos, and fire)
+- "Satoru Gojo" = electric blue, ice white, deep violet, indigo (his Infinity, Six Eyes, blindfold)
+- "Naruto" = bright orange, sunny yellow, black accents, blue
+- "Darth Vader" = black, dark red, charcoal, crimson glow
+- "Elsa" = icy blue, frost white, pale lavender, silver
+
+Color guidelines for moods/themes:
 - "sunset" = warm oranges, deep reds, golden yellows, soft pinks
 - "ocean" / "sea" = deep blues, teals, aquas, seafoam greens
 - "forest" = rich greens, earthy browns, mossy tones, olive
@@ -40,12 +51,13 @@ Color guidelines:
 - "romantic" / "love" = roses, blush pink, deep red, mauve
 - "winter" / "ice" = cool whites, light blues, silver, pale lavender
 - "tropical" = bright green, turquoise, coral, hot pink, sunny yellow
-- If the input is a COLOR NAME (e.g. "red", "blue", "green", "purple"), generate 5 different shades, tints, and tones of that specific color — from dark to light
+- If the input is a COLOR NAME (e.g. "red", "blue"), generate 5 shades/tints/tones of that color from dark to light
+- For brands, places, or objects, use their real-world associated colors
 - For any other keyword, think about what real-world colors are associated with it
 
 Rules:
 - Return ONLY a valid JSON array of 5 hex color strings, nothing else
-- Colors must be visually harmonious — use analogous, complementary, or split-complementary relationships
+- Colors must be visually harmonious
 - Include a mix of 2-3 dominant colors and 2-3 supporting/accent colors
 - Vary lightness: include at least one darker and one lighter shade
 - Each hex must start with # and have exactly 6 hex digits
