@@ -57,20 +57,21 @@ Color guidelines for moods/themes:
 
 Rules:
 - Return ONLY a valid JSON array of 5 hex color strings, nothing else
-- Colors must be visually harmonious
-- Include a mix of 2-3 dominant colors and 2-3 supporting/accent colors
-- Vary lightness: include at least one darker and one lighter shade
+- ALL 5 colors MUST stay within the same color family/theme — do NOT add random contrasting colors
+- Colors must be visually harmonious and cohesive
+- Vary lightness within the theme: include darker, medium, and lighter shades of the SAME color family
 - Each hex must start with # and have exactly 6 hex digits
 - No explanation, no markdown, no code blocks — just the raw JSON array
 
-Example: ["#FF6B35","#F7C59F","#EFEFD0","#004E89","#1A659E"]`
+Example for "sunset": ["#8B2500","#D4451A","#E87B35","#F4A460","#FDDCB5"]
+Example for "midnight": ["#0A0E1A","#121B3A","#1B2A5B","#2A3F7C","#4A5F9D"]`
                 },
                 {
                     role: 'user',
-                    content: `Generate a beautiful 5-color palette for: "${mood}"`
+                    content: `Generate a cohesive 5-color palette for: "${mood}". All 5 colors must relate to this theme — stay within the same color family, varying only in lightness and saturation.`
                 }
             ],
-            temperature: 0.4,
+            temperature: 0.3,
             max_tokens: 150,
         });
 
