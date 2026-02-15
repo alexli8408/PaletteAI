@@ -28,7 +28,7 @@ export async function PATCH(request: NextRequest, { params }: RouteContext): Pro
     try {
         await connectDB();
 
-        const session = await auth();
+        const session = await auth().catch(() => null);
         if (!session?.user?.id) {
             return NextResponse.json({ error: 'Sign in to like palettes' }, { status: 401 });
         }

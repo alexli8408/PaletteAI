@@ -50,7 +50,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
     try {
         await connectDB();
 
-        const session = await auth();
+        const session = await auth().catch(() => null);
         const body = await request.json() as {
             name?: string;
             colors?: Color[];
