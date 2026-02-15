@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useSession, signIn, signOut } from 'next-auth/react';
-import { Palette, Sparkles, LayoutGrid, LogOut, LogIn } from 'lucide-react';
+import { Palette, LayoutGrid, LogOut, LogIn } from 'lucide-react';
 import styles from './Navbar.module.css';
 
 export default function Navbar(): React.JSX.Element {
@@ -28,7 +28,7 @@ export default function Navbar(): React.JSX.Element {
     return (
         <nav className={styles.nav}>
             <div className={styles.inner}>
-                <Link href="/" className={styles.logo}>
+                <Link href="/generate" className={styles.logo}>
                     <div className={styles.logoIcon}>
                         <Palette size={22} />
                     </div>
@@ -36,13 +36,6 @@ export default function Navbar(): React.JSX.Element {
                 </Link>
 
                 <div className={styles.links}>
-                    <Link
-                        href="/generate"
-                        className={`${styles.link} ${pathname === '/generate' ? styles.active : ''}`}
-                    >
-                        <Sparkles size={16} />
-                        <span>Generate</span>
-                    </Link>
                     <Link
                         href="/gallery"
                         className={`${styles.link} ${pathname === '/gallery' ? styles.active : ''}`}
