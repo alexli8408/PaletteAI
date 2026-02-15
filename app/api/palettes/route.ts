@@ -4,29 +4,25 @@ import Palette from '@/models/Palette';
 import { auth } from '@/lib/auth';
 import type { Color } from '@/types';
 
-// GET /api/palettes — list palettes
+// GET /api/palettes — list user's palettes
 export async function GET(request: NextRequest): Promise<NextResponse> {
     try {
         await connectDB();
 
+        const session = await auth().catch(() => null);
+        if (!session?.user?.id) {
+            return NextResponse.json({ palettes: [], total: 0, page: 1, totalPages: 0 });
+        }
+
         const { searchParams } = new URL(request.url);
-        const sort = searchParams.get('sort') || 'recent';
-        const tag = searchParams.get('tag');
         const search = searchParams.get('search');
-        const limit = Math.min(parseInt(searchParams.get('limit') || '20'), 50);
+        const limit = Math.min(parseInt(searchParams.get('limit') || '50'), 100);
         const page = Math.max(parseInt(searchParams.get('page') || '1'), 1);
 
-        const query: Record<string, unknown> = {};
-        if (tag) query.tags = tag;
+        const query: Record<string, unknown> = { userId: session.user.id };
         if (search) query.$text = { $search: search };
 
-        let sortObj: Record<string, 1 | -1> = {};
-        switch (sort) {
-            case 'trending': sortObj = { likes: -1 }; break;
-            case 'oldest': sortObj = { createdAt: 1 }; break;
-            case 'recent':
-            default: sortObj = { createdAt: -1 }; break;
-        }
+        const sortObj: Record<string, 1 | -1> = { createdAt: -1 };
 
         const [palettes, total] = await Promise.all([
             Palette.find(query).sort(sortObj).skip((page - 1) * limit).limit(limit).lean(),
