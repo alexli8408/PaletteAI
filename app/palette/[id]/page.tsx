@@ -95,8 +95,8 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
                         <button className="btn btn-secondary" onClick={() => setShowExport(true)}>
                             <Download size={16} /> Export
                         </button>
-                        <button className="btn btn-ghost" onClick={handleDelete}>
-                            <Trash2 size={16} />
+                        <button className="btn btn-secondary" onClick={handleDelete}>
+                            <Trash2 size={16} /> Delete
                         </button>
                     </div>
                 </div>
