@@ -198,7 +198,7 @@ export default function GeneratePage(): React.JSX.Element {
                                 </button>
                             </div>
                             <div className={styles.suggestions}>
-                                <span className={styles.suggestLabel}>Try:</span>
+                                <span className={styles.suggestLabel}>Suggestions:</span>
                                 {moodSuggestions.map((s) => (
                                     <button
                                         key={s}
@@ -294,7 +294,7 @@ export default function GeneratePage(): React.JSX.Element {
                 <div className={styles.empty}>
                     <Sparkles size={48} className={styles.emptyIcon} />
                     <h3>Your palette will appear here</h3>
-                    <p>Enter a mood above or click a suggestion to get started</p>
+                    <p>Enter a keyword or click a suggestion to get started</p>
                 </div>
             )}
 
