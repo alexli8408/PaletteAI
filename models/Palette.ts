@@ -9,7 +9,7 @@ export interface IPalette extends Document {
     name: string;
     colors: IColor[];
     mood?: string;
-    source: 'ai' | 'image' | 'manual';
+    source: 'ai' | 'image' | 'manual' | 'fallback' | 'image-ai' | 'image-fallback';
     sourceImage?: string;
     likes: number;
     likedBy: string[];
@@ -53,7 +53,7 @@ const PaletteSchema = new mongoose.Schema<IPalette>({
     },
     source: {
         type: String,
-        enum: ['ai', 'image', 'manual'],
+        enum: ['ai', 'image', 'manual', 'fallback', 'image-ai', 'image-fallback'],
         default: 'ai',
     },
     sourceImage: {

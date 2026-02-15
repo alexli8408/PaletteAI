@@ -14,7 +14,7 @@ export interface Palette {
     name: string;
     colors: Color[];
     mood?: string;
-    source: 'ai' | 'image' | 'manual';
+    source: 'ai' | 'image' | 'manual' | 'fallback' | 'image-ai' | 'image-fallback';
     likes: number;
     likedBy?: string[];
     tags: string[];
