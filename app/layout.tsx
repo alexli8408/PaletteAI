@@ -5,7 +5,7 @@ import AuthProvider from '@/components/AuthProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
-    title: 'PaletteAI — AI-Powered Color Palette Generator',
+    title: 'PaletteAI',
     description: 'Generate beautiful, harmonized color palettes using AI. Describe a mood, upload an image, or create manually. Built with Next.js, MongoDB, and Azure.',
     keywords: ['color palette', 'AI', 'design tool', 'color generator', 'palette generator'],
 };
