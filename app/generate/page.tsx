@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import ColorSwatch from '@/components/ColorSwatch';
 import ImageDropzone from '@/components/ImageDropzone';
 import ExportModal from '@/components/ExportModal';
-import { generateRandomPalette, getColorName, getContrastRatio } from '@/lib/palette-utils';
+import { generateRandomPalette, getColorName } from '@/lib/palette-utils';
 import type { Color } from '@/types';
 import styles from './page.module.css';
 
@@ -285,48 +285,7 @@ export default function GeneratePage(): React.JSX.Element {
                             ))}
                         </div>
 
-                        {/* Contrast Grid */}
-                        <div className={styles.contrastSection}>
-                            <h3 className={styles.contrastTitle}>Contrast Grid</h3>
-                            <div className={styles.contrastGrid}>
-                                <div className={styles.contrastHeader}>
-                                    <div className={styles.contrastCorner}></div>
-                                    {palette.colors.map((c, i) => (
-                                        <div key={i} className={styles.contrastLabel} style={{ backgroundColor: c.hex }}>
-                                            <span style={{ color: c.hex === '#ffffff' || c.hex === '#fff' ? '#000' : '#fff', fontSize: '0.65rem' }}>
-                                                {i + 1}
-                                            </span>
-                                        </div>
-                                    ))}
-                                </div>
-                                {palette.colors.map((c1, i) => (
-                                    <div key={i} className={styles.contrastRow}>
-                                        <div className={styles.contrastLabel} style={{ backgroundColor: c1.hex }}>
-                                            <span style={{ color: c1.hex === '#ffffff' || c1.hex === '#fff' ? '#000' : '#fff', fontSize: '0.65rem' }}>
-                                                {i + 1}
-                                            </span>
-                                        </div>
-                                        {palette.colors.map((c2, j) => {
-                                            const ratio = getContrastRatio(c1.hex, c2.hex);
-                                            const pass = ratio >= 4.5;
-                                            return (
-                                                <div
-                                                    key={j}
-                                                    className={`${styles.contrastCell} ${pass ? styles.pass : styles.fail}`}
-                                                    title={`${c1.hex} vs ${c2.hex}`}
-                                                >
-                                                    {ratio.toFixed(1)}
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                ))}
-                            </div>
-                            <div className={styles.contrastLegend}>
-                                <span className={styles.legendItem}><span className={`${styles.legendDot} ${styles.pass}`}></span> ≥ 4.5 (WCAG AA)</span>
-                                <span className={styles.legendItem}><span className={`${styles.legendDot} ${styles.fail}`}></span> &lt; 4.5</span>
-                            </div>
-                        </div>
+
                     </div>
                 )}
 

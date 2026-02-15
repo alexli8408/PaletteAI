@@ -270,13 +270,8 @@ export function getLuminance(hex: string): number {
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-export function getContrastRatio(hex1: string, hex2: string): number {
-    const l1 = getLuminance(hex1);
-    const l2 = getLuminance(hex2);
-    const lighter = Math.max(l1, l2);
-    const darker = Math.min(l1, l2);
-    return (lighter + 0.05) / (darker + 0.05);
-}
+
+
 
 export function getTextColor(bgHex: string): string {
     const luminance = getLuminance(bgHex);
