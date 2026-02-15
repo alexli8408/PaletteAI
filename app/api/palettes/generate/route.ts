@@ -74,8 +74,11 @@ Example: ["#FF6B35","#F7C59F","#EFEFD0","#004E89","#1A659E"]`
             max_tokens: 150,
         });
 
-        const content = response.choices[0]?.message?.content?.trim();
+        let content = response.choices[0]?.message?.content?.trim();
         if (!content) return null;
+
+        // Strip markdown code fences if present (e.g. ```json ... ```)
+        content = content.replace(/^```(?:json)?\s*/i, '').replace(/\s*```$/i, '').trim();
 
         // Parse the JSON array of hex colors
         const hexColors: string[] = JSON.parse(content);
