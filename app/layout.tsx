@@ -30,6 +30,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }):
                     />
                     <Navbar />
                     <main>{children}</main>
+                    <footer style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 2rem', borderTop: '1px solid rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.35)', fontSize: '0.8rem' }}>
+                        <span>PaletteAI</span>
+                        <span>Built with Next.js, MongoDB &amp; Azure</span>
+                    </footer>
                 </AuthProvider>
             </body>
         </html>
