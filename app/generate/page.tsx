@@ -139,9 +139,9 @@ export default function GeneratePage(): React.JSX.Element {
     ];
 
     const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
-        { id: 'mood', label: 'Mood / Keyword', icon: <Sparkles size={15} /> },
+        { id: 'mood', label: 'Enter Keyword', icon: <Sparkles size={15} /> },
         { id: 'image', label: 'Upload Image', icon: <ImageIcon size={15} /> },
-        { id: 'manual', label: 'Manual', icon: <Sliders size={15} /> },
+        { id: 'manual', label: 'Create Manually', icon: <Sliders size={15} /> },
     ];
 
     return (
