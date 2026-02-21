@@ -115,9 +115,9 @@ export default function GeneratePage(): React.JSX.Element {
     };
 
     const moodSuggestions: string[] = [
-        'sunset', 'ocean', 'forest', 'candy', 'midnight',
-        'neon', 'retro', 'pastel', 'autumn', 'tropical',
-        'luxury', 'minimal', 'romantic', 'winter', 'vibrant',
+        'Sunset', 'Ocean', 'Forest', 'Candy', 'Midnight',
+        'Neon', 'Retro', 'Pastel', 'Autumn', 'Tropical',
+        'Luxury', 'Minimal', 'Romantic', 'Winter', 'Vibrant',
     ];
 
     const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
