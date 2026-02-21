@@ -30,7 +30,7 @@ export default function GeneratePage(): React.JSX.Element {
     // Mood / Keyword generation
     const handleGenerate = async (): Promise<void> => {
         if (!mood.trim()) {
-            toast.error('Enter a mood or keyword');
+            toast.error('Enter a keyword...');
             return;
         }
 
