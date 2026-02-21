@@ -251,14 +251,8 @@ export default function GeneratePage(): React.JSX.Element {
                     </div>
                 )}
 
-                {/* Empty State */}
-                {!palette && !isLoading && (
-                    <div className={styles.empty}>
-                        <Sparkles size={48} className={styles.emptyIcon} />
-                        <h3>Your palette will appear here</h3>
-                        <p>Enter a keyword or click a suggestion to get started...</p>
-                    </div>
-                )}
+
+
 
 
             </div>
