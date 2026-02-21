@@ -30,7 +30,7 @@
 
 /* Tabs */
 .tabBar {
-    max-width: 500px;
+    max-width: 350px;
     margin: 0 auto var(--space-xl);
 }
 
