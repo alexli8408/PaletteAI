@@ -294,6 +294,7 @@ img {
   border: 1px solid var(--border-color);
   transition: all var(--transition-base);
   text-align: center;
+  white-space: nowrap;
 }
 
 .tab:hover {
