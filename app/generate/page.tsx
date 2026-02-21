@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles, Image as ImageIcon, Save, Download, Loader2 } from 'lucide-react';
+import { Sparkles, Image as ImageIcon, Save, Download } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ColorSwatch from '@/components/ColorSwatch';
 import ImageDropzone from '@/components/ImageDropzone';
@@ -173,7 +173,7 @@ export default function GeneratePage(): React.JSX.Element {
                                     onClick={handleGenerate}
                                     disabled={isLoading}
                                 >
-                                    {isLoading ? <Loader2 size={18} className={styles.spin} /> : <Sparkles size={18} />}
+                                    <Sparkles size={18} />
                                     Generate
                                 </button>
                             </div>
@@ -251,14 +251,14 @@ export default function GeneratePage(): React.JSX.Element {
                     </div>
                 )}
 
-            {/* Empty State */}
-            {!palette && !isLoading && (
-                <div className={styles.empty}>
-                    <Sparkles size={48} className={styles.emptyIcon} />
-                    <h3>Your palette will appear here</h3>
-                    <p>Enter a keyword or click a suggestion to get started...</p>
-                </div>
-            )}
+                {/* Empty State */}
+                {!palette && !isLoading && (
+                    <div className={styles.empty}>
+                        <Sparkles size={48} className={styles.emptyIcon} />
+                        <h3>Your palette will appear here</h3>
+                        <p>Enter a keyword or click a suggestion to get started...</p>
+                    </div>
+                )}
 
 
             </div>

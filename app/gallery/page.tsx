@@ -70,12 +70,7 @@ export default function GalleryPage(): React.JSX.Element {
                             </form>
                         </div>
 
-                        {isLoading ? (
-                            <div className={styles.loading}>
-                                <div className={styles.spinner} />
-                                <p>Loading your palettes...</p>
-                            </div>
-                        ) : palettes.length > 0 ? (
+                        {palettes.length > 0 ? (
                             <div className={styles.grid}>
                                 {palettes.map((palette, i) => (
                                     <PaletteCard
