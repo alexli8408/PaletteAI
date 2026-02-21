@@ -136,7 +136,7 @@ export default function GeneratePage(): React.JSX.Element {
                         PaletteAI
                     </h1>
                     <p className={styles.subtitle}>
-                        Enter a keyword or upload an image to generate a palette
+                        Enter a keyword or upload an image to generate a palette.
                     </p>
                 </div>
 
