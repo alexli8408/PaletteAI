@@ -195,6 +195,13 @@ img {
   transform: translateY(0);
 }
 
+.btn-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 .btn-secondary {
   background: var(--bg-glass);
   border: 1px solid var(--border-color);

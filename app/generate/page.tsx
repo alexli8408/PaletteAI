@@ -29,10 +29,7 @@ export default function GeneratePage(): React.JSX.Element {
 
     // Mood / Keyword generation
     const handleGenerate = async (): Promise<void> => {
-        if (!mood.trim()) {
-            toast.error('Enter a keyword...');
-            return;
-        }
+        if (!mood.trim()) return;
 
         setIsLoading(true);
         try {
@@ -173,7 +170,7 @@ export default function GeneratePage(): React.JSX.Element {
                                 <button
                                     className="btn btn-primary"
                                     onClick={handleGenerate}
-                                    disabled={isLoading}
+                                    disabled={isLoading || !mood.trim()}
                                 >
                                     <Sparkles size={18} />
                                     Generate
