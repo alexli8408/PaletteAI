@@ -47,6 +47,7 @@ export default function GeneratePage(): React.JSX.Element {
             const data: GeneratedPalette = await res.json();
             setPalette(data);
             setPaletteName(data.name || `${mood.trim()} Palette`);
+            toast.success('Palette generated!');
 
         } catch (error) {
             toast.error('Failed to generate palette');
@@ -106,7 +107,7 @@ export default function GeneratePage(): React.JSX.Element {
 
             if (!res.ok) throw new Error('Failed to save');
 
-            toast.success('Palette saved to gallery!');
+            toast.success('Palette saved!');
         } catch (error) {
             toast.error('Failed to save palette (is MongoDB running?)');
             console.error(error);
@@ -195,6 +196,7 @@ export default function GeneratePage(): React.JSX.Element {
                                                 .then((data: GeneratedPalette) => {
                                                     setPalette(data);
                                                     setPaletteName(data.name || `${s} Palette`);
+                                                    toast.success('Palette generated!');
 
                                                 })
                                                 .catch(() => toast.error('Failed'))
