@@ -47,7 +47,7 @@ export default function GeneratePage(): React.JSX.Element {
             const data: GeneratedPalette = await res.json();
             setPalette(data);
             setPaletteName(data.name || `${mood.trim()} Palette`);
-            toast.success('Palette generated!');
+
         } catch (error) {
             toast.error('Failed to generate palette');
             console.error(error);
@@ -195,7 +195,7 @@ export default function GeneratePage(): React.JSX.Element {
                                                 .then((data: GeneratedPalette) => {
                                                     setPalette(data);
                                                     setPaletteName(data.name || `${s} Palette`);
-                                                    toast.success('Palette generated!');
+
                                                 })
                                                 .catch(() => toast.error('Failed'))
                                                 .finally(() => setIsLoading(false));
