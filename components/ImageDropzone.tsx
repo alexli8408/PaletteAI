@@ -30,12 +30,7 @@ export default function ImageDropzone({ onImageUpload, isLoading }: ImageDropzon
         >
             <input {...getInputProps()} />
             <div className={styles.content}>
-                {isLoading ? (
-                    <>
-                        <div className={styles.spinner} />
-                        <p className={styles.title}>Extracting colors...</p>
-                    </>
-                ) : isDragActive ? (
+                {isDragActive ? (
                     <>
                         <ImageIcon size={40} className={styles.icon} />
                         <p className={styles.title}>Drop your image here</p>
