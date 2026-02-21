@@ -118,7 +118,7 @@ export default function GeneratePage(): React.JSX.Element {
         'Sunset', 'Ocean', 'Forest', 'Candy', 'Midnight',
         'Neon', 'Retro', 'Pastel', 'Autumn', 'Tropical',
         'Luxury', 'Minimal', 'Romantic', 'Winter', 'Vibrant',
-        'Elegant', 'Cosmic',
+        'Cosmic',
     ];
 
     const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
