@@ -118,6 +118,7 @@ export default function GeneratePage(): React.JSX.Element {
         'Sunset', 'Ocean', 'Forest', 'Candy', 'Midnight',
         'Neon', 'Retro', 'Pastel', 'Autumn', 'Tropical',
         'Luxury', 'Minimal', 'Romantic', 'Winter', 'Vibrant',
+        'Elegant', 'Cosmic',
     ];
 
     const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
@@ -179,7 +180,7 @@ export default function GeneratePage(): React.JSX.Element {
                                 </button>
                             </div>
                             <div className={styles.suggestions}>
-                                <span className={styles.suggestLabel}>Suggestions:</span>
+                                <span className={styles.suggestLabel}>Try:</span>
                                 {moodSuggestions.map((s) => (
                                     <button
                                         key={s}
