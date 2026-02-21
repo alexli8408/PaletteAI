@@ -22,7 +22,7 @@ export default function ExportModal({ palette, onClose }: ExportModalProps): Rea
     const handleCopy = (): void => {
         navigator.clipboard.writeText(exports[activeTab]);
         setCopied(true);
-        toast.success(`Copied ${activeTab.toUpperCase()} to clipboard`);
+        toast.success(`Copied ${activeTab.toUpperCase()} to clipboard!`);
         setTimeout(() => setCopied(false), 2000);
     };
 
@@ -39,7 +39,7 @@ export default function ExportModal({ palette, onClose }: ExportModalProps): Rea
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        toast.success(`Downloaded palette.${extensions[activeTab]}`);
+        toast.success(`Downloaded palette.${extensions[activeTab]}!`);
     };
 
     return (

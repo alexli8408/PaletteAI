@@ -23,7 +23,7 @@ export default function ColorSwatch({ hex, name, size = 'medium', showInfo = tru
         e.stopPropagation();
         navigator.clipboard.writeText(hex);
         setCopied(true);
-        toast.success(`Copied ${hex}`);
+        toast.success(`Copied ${hex}!`);
         setTimeout(() => setCopied(false), 2000);
     };
 
@@ -31,7 +31,7 @@ export default function ColorSwatch({ hex, name, size = 'medium', showInfo = tru
         <div
             className={`${styles.swatch} ${styles[size]}`}
             style={{ backgroundColor: hex }}
-            onClick={onClick || (() => { navigator.clipboard.writeText(hex); toast.success(`Copied ${hex}`); })}
+            onClick={onClick || (() => { navigator.clipboard.writeText(hex); toast.success(`Copied ${hex}!`); })}
         >
             {showInfo && (
                 <div className={styles.info} style={{ color: textColor }}>

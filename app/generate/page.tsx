@@ -71,7 +71,7 @@ export default function GeneratePage(): React.JSX.Element {
             const data: GeneratedPalette = await res.json();
             setPalette(data);
             setPaletteName(data.name || 'Extracted Palette');
-            toast.success('Colors extracted!');
+            toast.success('Palette generated!');
         } catch (error) {
             toast.error('Failed to extract colors');
             console.error(error);
