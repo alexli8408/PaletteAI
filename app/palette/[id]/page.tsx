@@ -43,7 +43,7 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
         try {
             await fetch(`/api/palettes/${id}`, { method: 'DELETE' });
             toast.success('Palette deleted');
-            window.location.href = '/gallery';
+            window.location.href = '/saved';
         } catch {
             toast.error('Failed to delete');
         }
@@ -68,7 +68,7 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
                 <div className="container">
                     <div className={styles.error}>
                         <h2>Palette not found</h2>
-                        <Link href="/gallery" className="btn btn-secondary">
+                        <Link href="/saved" className="btn btn-secondary">
                             <ArrowLeft size={16} /> Back to Saved
                         </Link>
                     </div>
@@ -80,7 +80,7 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
     return (
         <div className={`page ${styles.page}`}>
             <div className="container">
-                <Link href="/gallery" className={styles.backLink}>
+                <Link href="/saved" className={styles.backLink}>
                     <ArrowLeft size={16} /> Back to Saved
                 </Link>
 
