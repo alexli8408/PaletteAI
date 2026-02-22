@@ -28,7 +28,7 @@ export default function Navbar(): React.JSX.Element {
     return (
         <nav className={styles.nav}>
             <div className={styles.inner}>
-                <Link href="/generate" className={styles.logo}>
+                <Link href="/" className={styles.logo}>
                     <div className={styles.logoIcon}>
                         <Palette size={22} />
                     </div>
