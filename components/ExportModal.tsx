@@ -83,10 +83,10 @@ export default function ExportModal({ palette, onClose }: ExportModalProps): Rea
                 <div className={styles.actions}>
                     <button className="btn btn-secondary" onClick={handleCopy}>
                         {copied ? <Check size={16} /> : <Copy size={16} />}
-                        {copied ? 'Copied!' : 'Copy Code'}
+                        {copied ? 'Copied!' : 'Copy'}
                     </button>
                     <button className="btn btn-primary" onClick={handleDownload}>
-                        Download File
+                        Download
                     </button>
                 </div>
             </div>
