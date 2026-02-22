@@ -109,7 +109,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         const source = aiColors ? 'image-ai' : 'image-fallback';
 
         return NextResponse.json({
-            name: 'Extracted Palette',
+            name: 'Palette',
             colors,
             source,
         });
