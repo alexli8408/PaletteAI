@@ -1,36 +1,116 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 PaletteAI
 
-## Getting Started
+**Generate beautiful, harmonized color palettes using AI.**
 
-First, run the development server:
+Describe a mood, enter a keyword, or upload an image — PaletteAI uses Azure OpenAI to create stunning color palettes instantly.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+🔗 **Live Demo:** [paletteai.app](https://paletteai.app)
+
+---
+
+## ✨ Features
+
+- **Keyword-Based Generation** — Enter a keyword like "sunset" or "neon" and get an AI-generated palette
+- **Image Color Extraction** — Upload an image to extract a harmonized palette from it
+- **Save & Manage** — Save palettes to your collection with Google authentication
+- **Export Options** — Export palettes as CSS, JSON, or Tailwind config
+- **Palette Details** — View, rename, and delete saved palettes
+- **Responsive Design** — Works seamlessly across desktop and mobile
+
+---
+
+## 🛠 Tech Stack
+
+| Layer        | Technology                              |
+| ------------ | --------------------------------------- |
+| **Framework**  | Next.js 16 (App Router)                |
+| **Language**   | TypeScript                             |
+| **Styling**    | CSS Modules + Custom Design System     |
+| **AI**         | Azure OpenAI (GPT-4o)                  |
+| **Database**   | MongoDB (Mongoose)                     |
+| **Auth**       | NextAuth.js (Google OAuth)             |
+| **Icons**      | Lucide React                           |
+| **Hosting**    | Azure App Service                      |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- MongoDB instance
+- Azure OpenAI resource
+- Google OAuth credentials
+
+### Environment Variables
+
+Create a `.env.local` file:
+
+```env
+# MongoDB
+MONGODB_URI=your_mongodb_connection_string
+
+# Azure OpenAI
+AZURE_OPENAI_ENDPOINT=your_azure_openai_endpoint
+AZURE_OPENAI_API_KEY=your_azure_openai_key
+AZURE_OPENAI_DEPLOYMENT=your_deployment_name
+
+# NextAuth
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=your_nextauth_secret
+
+# Google OAuth
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installation
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+```bash
+# Install dependencies
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# Run development server
+npm run dev
+```
 
-## Learn More
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-To learn more about Next.js, take a look at the following resources:
+### Build for Production
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm run build
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 📁 Project Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+app/
+├── page.tsx              # Home — palette generation
+├── saved/                # Saved palettes gallery
+├── palette/[id]/         # Individual palette view
+├── api/
+│   ├── palettes/         # CRUD + generate + extract APIs
+│   ├── auth/             # NextAuth endpoints
+│   └── user/             # User endpoints
+components/
+├── Navbar.tsx            # Navigation bar
+├── PaletteCard.tsx       # Palette card component
+├── ColorSwatch.tsx       # Color swatch with copy
+├── ExportModal.tsx       # Export dialog (CSS/JSON/Tailwind)
+└── ImageDropzone.tsx     # Image upload dropzone
+lib/
+├── palette-utils.ts      # Color utilities
+├── mongodb.ts            # Database connection
+└── auth.ts               # Auth configuration
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📄 License
+
+This project is for educational purposes.
