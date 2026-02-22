@@ -143,12 +143,14 @@ img {
 
 /* --- Layout --- */
 .container {
-  max-width: 1200px;
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 var(--space-lg);
+  padding: 0 var(--space-xl);
 }
 
 .page {
+  width: 100%;
   padding-top: 80px;
 }
 
