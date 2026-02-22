@@ -46,7 +46,7 @@ export default function ExportModal({ palette, onClose }: ExportModalProps): Rea
         <div className={styles.overlay} onClick={onClose}>
             <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
                 <div className={styles.header}>
-                    <h2 className={styles.title}>Export Palette</h2>
+                    <h2 className={styles.title}>Export</h2>
                     <button className={styles.closeBtn} onClick={onClose} aria-label="Close">
                         <X size={20} />
                     </button>
