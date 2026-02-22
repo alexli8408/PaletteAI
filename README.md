@@ -1,14 +1,14 @@
-# 🎨 PaletteAI
+# PaletteAI
 
 **Generate beautiful, harmonized color palettes using AI.**
 
 Describe a mood, enter a keyword, or upload an image — PaletteAI uses Azure OpenAI to create stunning color palettes instantly.
 
-🔗 **Live Demo:** [paletteai.app](https://paletteai.app)
+**Live Demo:** [paletteai.app](https://paletteai.app)
 
 ---
 
-## ✨ Features
+## Features
 
 - **Keyword-Based Generation** — Enter a keyword like "sunset" or "neon" and get an AI-generated palette
 - **Image Color Extraction** — Upload an image to extract a harmonized palette from it
@@ -19,7 +19,7 @@ Describe a mood, enter a keyword, or upload an image — PaletteAI uses Azure Op
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 
 | Layer        | Technology                              |
 | ------------ | --------------------------------------- |
@@ -34,7 +34,7 @@ Describe a mood, enter a keyword, or upload an image — PaletteAI uses Azure Op
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -86,7 +86,7 @@ npm start
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 app/
@@ -111,6 +111,6 @@ lib/
 
 ---
 
-## 📄 License
+## License
 
 This project is for educational purposes.
