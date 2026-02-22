@@ -13,7 +13,7 @@ Describe a mood, enter a keyword, or upload an image — PaletteAI uses Azure Op
 - **Keyword-Based Generation** — Enter a keyword like "sunset" or "neon" and get an AI-generated palette
 - **Image Color Extraction** — Upload an image to extract a harmonized palette from it
 - **Save & Manage** — Save palettes to your collection with Google authentication
-- **Export Options** — Export palettes as CSS, JSON, or Tailwind config
+- **Export Options** — Export palettes as CSS, JSON, or SVG
 - **Palette Details** — View, rename, and delete saved palettes
 - **Responsive Design** — Works seamlessly across desktop and mobile
 
@@ -30,7 +30,7 @@ Describe a mood, enter a keyword, or upload an image — PaletteAI uses Azure Op
 | **Database**   | MongoDB (Mongoose)                     |
 | **Auth**       | NextAuth.js (Google OAuth)             |
 | **Icons**      | Lucide React                           |
-| **Hosting**    | Azure App Service                      |
+| **Hosting**    | Vercel                                 |
 
 ---
 
@@ -101,7 +101,7 @@ components/
 ├── Navbar.tsx            # Navigation bar
 ├── PaletteCard.tsx       # Palette card component
 ├── ColorSwatch.tsx       # Color swatch with copy
-├── ExportModal.tsx       # Export dialog (CSS/JSON/Tailwind)
+├── ExportModal.tsx       # Export dialog (CSS/JSON/SVG)
 └── ImageDropzone.tsx     # Image upload dropzone
 lib/
 ├── palette-utils.ts      # Color utilities
