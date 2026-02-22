@@ -98,6 +98,7 @@ app/
 │   ├── auth/             # NextAuth endpoints
 │   └── user/             # User endpoints
 components/
+├── AuthProvider.tsx      # NextAuth provider wrapper
 ├── Navbar.tsx            # Navigation bar
 ├── PaletteCard.tsx       # Palette card component
 ├── ColorSwatch.tsx       # Color swatch with copy
@@ -107,6 +108,10 @@ lib/
 ├── palette-utils.ts      # Color utilities
 ├── mongodb.ts            # Database connection
 └── auth.ts               # Auth configuration
+models/
+└── Palette.ts            # Mongoose schema for palettes
+types/
+└── index.ts              # TypeScript interfaces/types
 ```
 
 ---
