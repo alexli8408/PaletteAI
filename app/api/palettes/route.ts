@@ -20,7 +20,7 @@ export async function GET(request: NextRequest): Promise<NextResponse> {
         const page = Math.max(parseInt(searchParams.get('page') || '1'), 1);
 
         const query: Record<string, unknown> = { userId: session.user.id };
-        if (search) query.$text = { $search: search };
+        if (search) query.name = { $regex: search, $options: 'i' };
 
         const sortObj: Record<string, 1 | -1> = { createdAt: -1 };
 
