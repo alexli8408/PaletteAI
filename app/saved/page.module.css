@@ -39,6 +39,10 @@
     padding-left: 42px !important;
 }
 
+.searchInput:disabled {
+    cursor: text;
+}
+
 /* Grid */
 .grid {
     display: grid;
