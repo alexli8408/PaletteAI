@@ -20,22 +20,6 @@ export interface Palette {
     updatedAt?: string;
 }
 
-/** Query params for the GET /api/palettes route */
-export interface PaletteQueryParams {
-    limit?: number;
-    page?: number;
-    search?: string;
-    mood?: string;
-}
-
-/** Response shape for paginated palette list */
-export interface PaletteListResponse {
-    palettes: Palette[];
-    total: number;
-    page: number;
-    totalPages: number;
-}
-
 /** RGB color representation */
 export interface RGB {
     r: number;

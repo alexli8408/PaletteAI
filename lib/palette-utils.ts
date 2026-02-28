@@ -115,56 +115,6 @@ export function getColorName(hex: string): string {
     return modifier ? `${modifier} ${colorEntry.name}` : colorEntry.name;
 }
 
-// --- Harmony Algorithms ---
-
-export function generateComplementary(hex: string): string[] {
-    const hsl = hexToHsl(hex);
-    if (!hsl) return [];
-    return [
-        hex,
-        hslToHex((hsl.h + 180) % 360, hsl.s, hsl.l),
-        hslToHex(hsl.h, Math.max(20, hsl.s - 20), Math.min(85, hsl.l + 15)),
-        hslToHex((hsl.h + 180) % 360, Math.max(20, hsl.s - 20), Math.min(85, hsl.l + 15)),
-        hslToHex(hsl.h, Math.max(10, hsl.s - 40), Math.min(90, hsl.l + 30)),
-    ];
-}
-
-export function generateAnalogous(hex: string): string[] {
-    const hsl = hexToHsl(hex);
-    if (!hsl) return [];
-    return [
-        hslToHex((hsl.h - 30 + 360) % 360, hsl.s, hsl.l),
-        hslToHex((hsl.h - 15 + 360) % 360, hsl.s, hsl.l),
-        hex,
-        hslToHex((hsl.h + 15) % 360, hsl.s, hsl.l),
-        hslToHex((hsl.h + 30) % 360, hsl.s, hsl.l),
-    ];
-}
-
-export function generateTriadic(hex: string): string[] {
-    const hsl = hexToHsl(hex);
-    if (!hsl) return [];
-    return [
-        hex,
-        hslToHex((hsl.h + 120) % 360, hsl.s, hsl.l),
-        hslToHex((hsl.h + 240) % 360, hsl.s, hsl.l),
-        hslToHex(hsl.h, Math.max(20, hsl.s - 30), Math.min(85, hsl.l + 20)),
-        hslToHex((hsl.h + 120) % 360, Math.max(20, hsl.s - 30), Math.min(85, hsl.l + 20)),
-    ];
-}
-
-export function generateSplitComplementary(hex: string): string[] {
-    const hsl = hexToHsl(hex);
-    if (!hsl) return [];
-    return [
-        hex,
-        hslToHex((hsl.h + 150) % 360, hsl.s, hsl.l),
-        hslToHex((hsl.h + 210) % 360, hsl.s, hsl.l),
-        hslToHex(hsl.h, Math.max(15, hsl.s - 25), Math.min(90, hsl.l + 20)),
-        hslToHex((hsl.h + 180) % 360, Math.max(15, hsl.s - 40), Math.min(92, hsl.l + 30)),
-    ];
-}
-
 // --- Mood-based Palette Generation (fallback for when Azure is not configured) ---
 
 const MOOD_PALETTES: Record<string, () => string[]> = {
@@ -270,9 +220,6 @@ export function getLuminance(hex: string): number {
     return 0.2126 * r + 0.7152 * g + 0.0722 * b;
 }
 
-
-
-
 export function getTextColor(bgHex: string): string {
     const luminance = getLuminance(bgHex);
     return luminance > 0.4 ? '#1a1a2e' : '#f0f0f5';
@@ -313,14 +260,4 @@ export function exportAsSVG(colors: Color[]): string {
     }).join('\n');
 
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">\n${rects}\n${labels}\n</svg>`;
-}
-
-// --- Random Palette Generation ---
-
-export function generateRandomPalette(): Color[] {
-    const baseHue = Math.random() * 360;
-    const baseSat = 50 + Math.random() * 40;
-    const baseLit = 40 + Math.random() * 25;
-    const hexColors = generateFromHue(baseHue, baseSat, baseLit);
-    return hexColors.map(hex => ({ hex, name: getColorName(hex) }));
 }

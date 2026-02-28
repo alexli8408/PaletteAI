@@ -10,7 +10,6 @@ export interface IPalette extends Document {
     colors: IColor[];
     mood?: string;
     source: 'ai' | 'image' | 'manual' | 'fallback' | 'image-ai' | 'image-fallback';
-    sourceImage?: string;
     tags: string[];
     userId?: string;
     createdAt: Date;
@@ -53,9 +52,6 @@ const PaletteSchema = new mongoose.Schema<IPalette>({
         type: String,
         enum: ['ai', 'image', 'manual', 'fallback', 'image-ai', 'image-fallback'],
         default: 'ai',
-    },
-    sourceImage: {
-        type: String,
     },
     tags: [{
         type: String,
