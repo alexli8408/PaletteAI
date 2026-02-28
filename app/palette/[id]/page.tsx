@@ -54,7 +54,6 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
             <div className={`page ${styles.page}`}>
                 <div className="container">
                     <div className={styles.loading}>
-                        <div className={styles.spinner} />
                         <p>Loading palette...</p>
                     </div>
                 </div>
