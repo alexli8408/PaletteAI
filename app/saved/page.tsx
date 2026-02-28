@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { Search, Filter } from 'lucide-react';
+import { Search } from 'lucide-react';
 import PaletteCard from '@/components/PaletteCard';
 import type { Palette } from '@/types';
 import styles from './page.module.css';
@@ -81,9 +81,7 @@ export default function GalleryPage(): React.JSX.Element {
                             </div>
                         ) : (
                             <div className={styles.empty}>
-                                <Filter size={48} />
-                                <h3>No palettes yet</h3>
-                                <p>Generate and save some palettes to see them here!</p>
+                                <p>No palettes yet.</p>
                             </div>
                         )}
                     </>
