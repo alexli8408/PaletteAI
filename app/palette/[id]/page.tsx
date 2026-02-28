@@ -42,8 +42,8 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
         if (!confirm('Delete this palette?')) return;
         try {
             await fetch(`/api/palettes/${id}`, { method: 'DELETE' });
-            toast.success('Palette deleted');
-            window.location.href = '/saved';
+            toast.success('Palette deleted!');
+            setTimeout(() => { window.location.href = '/saved'; }, 1000);
         } catch {
             toast.error('Failed to delete');
         }
