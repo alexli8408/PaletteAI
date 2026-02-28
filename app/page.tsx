@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { Sparkles, Image as ImageIcon, Save, Download } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ColorSwatch from '@/components/ColorSwatch';
@@ -20,6 +21,7 @@ interface GeneratedPalette {
 type TabId = 'mood' | 'image';
 
 export default function GeneratePage(): React.JSX.Element {
+    const { status: authStatus } = useSession();
     const [activeTab, setActiveTab] = useState<TabId>('mood');
     const [mood, setMood] = useState<string>('');
     const [palette, setPalette] = useState<GeneratedPalette | null>(null);
@@ -242,7 +244,11 @@ export default function GeneratePage(): React.JSX.Element {
                                     <Download size={16} />
                                     Export
                                 </button>
-                                <button className="btn btn-primary" onClick={handleSave}>
+                                <button
+                                    className="btn btn-primary"
+                                    onClick={handleSave}
+                                    disabled={authStatus !== 'authenticated'}
+                                >
                                     <Save size={16} />
                                     Save
                                 </button>
