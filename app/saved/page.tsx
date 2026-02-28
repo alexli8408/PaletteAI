@@ -19,6 +19,12 @@ export default function GalleryPage(): React.JSX.Element {
         else setIsLoading(false);
     }, [authStatus]);
 
+    useEffect(() => {
+        if (authStatus !== 'authenticated') return;
+        const timer = setTimeout(() => fetchPalettes(), 300);
+        return () => clearTimeout(timer);
+    }, [search]);
+
     const fetchPalettes = async (): Promise<void> => {
         setIsLoading(true);
         try {
@@ -35,11 +41,6 @@ export default function GalleryPage(): React.JSX.Element {
         } finally {
             setIsLoading(false);
         }
-    };
-
-    const handleSearch = (e: React.FormEvent<HTMLFormElement>): void => {
-        e.preventDefault();
-        fetchPalettes();
     };
 
     return (
@@ -72,7 +73,7 @@ export default function GalleryPage(): React.JSX.Element {
                 {authStatus === 'authenticated' && (
                     <>
                         <div className={styles.controls}>
-                            <form className={styles.searchForm} onSubmit={handleSearch}>
+                            <form className={styles.searchForm} onSubmit={(e) => e.preventDefault()}>
                                 <Search size={18} className={styles.searchIcon} />
                                 <input
                                     type="text"
