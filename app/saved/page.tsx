@@ -50,9 +50,23 @@ export default function GalleryPage(): React.JSX.Element {
                 </div>
 
                 {authStatus === 'unauthenticated' && (
-                    <div className={styles.infoBanner}>
-                        🔒 Sign in to save and view your palettes.
-                    </div>
+                    <>
+                        <div className={styles.controls}>
+                            <form className={styles.searchForm} onSubmit={(e) => e.preventDefault()}>
+                                <Search size={18} className={styles.searchIcon} />
+                                <input
+                                    type="text"
+                                    className={`input ${styles.searchInput}`}
+                                    placeholder="Search your palettes..."
+                                    disabled
+                                />
+                            </form>
+                        </div>
+                        <div className={styles.empty}>
+                            <Filter size={48} />
+                            <p>No palettes yet.</p>
+                        </div>
+                    </>
                 )}
 
                 {authStatus === 'authenticated' && (
