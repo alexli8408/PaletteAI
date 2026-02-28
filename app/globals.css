@@ -319,6 +319,7 @@ img {
 .tab.active {
   background: var(--gradient-primary);
   color: white;
+  border: none;
 }
 
 .tab.active:hover {
