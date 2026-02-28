@@ -48,18 +48,6 @@
     overflow: hidden;
 }
 
-/* Sections */
-.section {
-    margin-bottom: var(--space-2xl);
-}
-
-.sectionTitle {
-    font-family: var(--font-display);
-    font-size: 1.3rem;
-    font-weight: 600;
-    margin-bottom: var(--space-lg);
-}
-
 
 /* Loading */
 .loading {

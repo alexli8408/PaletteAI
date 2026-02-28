@@ -13,12 +13,6 @@
     font-weight: 700;
 }
 
-.subtitle {
-    margin-top: var(--space-sm);
-    color: var(--text-secondary);
-    font-size: 1.05rem;
-}
-
 /* Controls */
 .controls {
     display: flex;
