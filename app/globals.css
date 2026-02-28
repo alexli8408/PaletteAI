@@ -319,6 +319,9 @@ img {
 .tab.active {
   background: var(--gradient-primary);
   color: white;
+}
+
+.tab.active:hover {
   box-shadow: 0 0 40px rgba(124, 58, 237, 0.4);
 }
 
