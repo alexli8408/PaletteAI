@@ -26,6 +26,7 @@ AI-powered color palette generator. Describe a mood, enter a keyword, or upload 
 | AI            | Azure OpenAI (GPT-4o)               |
 | Database      | MongoDB with Mongoose               |
 | Auth          | NextAuth.js v5 (Google OAuth)       |
+| Icons         | Lucide React                        |
 | Hosting       | Vercel                              |
 
 ---
