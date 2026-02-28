@@ -185,7 +185,6 @@ img {
 .btn-primary {
   background: var(--gradient-primary);
   color: white;
-  box-shadow: var(--shadow-glow);
 }
 
 .btn-primary:hover {
@@ -214,6 +213,7 @@ img {
 .btn-secondary:hover {
   border-color: var(--border-accent);
   background: var(--bg-glass-hover);
+  box-shadow: 0 0 30px rgba(124, 58, 237, 0.15);
 }
 
 .btn-ghost {
