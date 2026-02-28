@@ -67,8 +67,8 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
                 <div className="container">
                     <div className={styles.error}>
                         <h2>Palette not found</h2>
-                        <Link href="/saved" className="btn btn-secondary">
-                            <ArrowLeft size={16} /> Back to Saved
+                        <Link href="/saved" className={styles.backBtn}>
+                            <ArrowLeft size={18} />
                         </Link>
                     </div>
                 </div>
@@ -79,8 +79,8 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
     return (
         <div className={`page ${styles.page}`}>
             <div className="container">
-                <Link href="/saved" className={styles.backLink}>
-                    <ArrowLeft size={16} /> Back to Saved
+                <Link href="/saved" className={styles.backBtn}>
+                    <ArrowLeft size={18} />
                 </Link>
 
                 <div className={styles.header}>

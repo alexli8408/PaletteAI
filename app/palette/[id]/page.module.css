@@ -2,20 +2,26 @@
     padding-bottom: var(--space-3xl);
 }
 
-.backLink {
+.backBtn {
     display: inline-flex;
     align-items: center;
-    gap: var(--space-sm);
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    background: var(--bg-glass);
+    margin-top: var(--space-lg);
     margin-bottom: var(--space-xl);
-    transition: color var(--transition-base);
+    transition: all var(--transition-base);
     text-decoration: none;
-    padding-top: var(--space-lg);
 }
 
-.backLink:hover {
+.backBtn:hover {
     color: var(--text-primary);
+    border-color: var(--border-accent);
+    box-shadow: 0 0 30px rgba(124, 58, 237, 0.15);
 }
 
 .header {
