@@ -128,8 +128,18 @@ export default function GeneratePage(): React.JSX.Element {
             <div className="container">
                 {/* Header */}
                 <div className={styles.header}>
+                    {/* SVG gradient definition for icons */}
+                    <svg width="0" height="0" style={{ position: 'absolute' }}>
+                        <defs>
+                            <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stopColor="#7c3aed" />
+                                <stop offset="50%" stopColor="#a855f7" />
+                                <stop offset="100%" stopColor="#ec4899" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
                     <h1 className={styles.title}>
-                        <Sparkles size={28} className={styles.titleIcon} />
+                        <Sparkles size={28} className={styles.titleIcon} style={{ stroke: 'url(#iconGradient)' }} />
                         PaletteAI
                     </h1>
                     <p className={styles.subtitle}>

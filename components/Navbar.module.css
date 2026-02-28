@@ -44,7 +44,6 @@
     font-size: 1.3rem;
     font-weight: 700;
     background: var(--gradient-primary);
-    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
