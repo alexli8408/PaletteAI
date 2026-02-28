@@ -22,7 +22,7 @@ export default function ExportModal({ palette, onClose }: ExportModalProps): Rea
     const handleCopy = (): void => {
         navigator.clipboard.writeText(exports[activeTab]);
         setCopied(true);
-        toast.success(`Copied ${activeTab.toUpperCase()} to clipboard!`);
+        toast.success(`Copied ${activeTab.toUpperCase()}!`);
         setTimeout(() => setCopied(false), 2000);
     };
 
