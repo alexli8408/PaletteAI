@@ -14,26 +14,26 @@ graph TD
     classDef server fill:#fff3e0,stroke:#ff9800,stroke-width:2px,color:#000
     classDef external fill:#e8f5e9,stroke:#4caf50,stroke-width:2px,color:#000
 
-    subgraph Client [Client-Side (React/Next.js UI)]
-        UI["User Interface / Pages"]:::client
-        State["React State & Hooks Hook"]:::client
-        Context["NextAuth Session Provider"]:::client
+    subgraph Client [Client Side UI]
+        UI["User Interface Components"]:::client
+        State["React State"]:::client
+        Context["NextAuth Context"]:::client
     end
 
-    subgraph Server [Server-Side (Next.js API Routes & Server Components)]
-        AuthRoute["/api/auth/* API"]:::server
-        PalettesRoute["/api/palettes/* CRUD"]:::server
-        ExtractRoute["/api/palettes/extract AI"]:::server
-        GenerateRoute["/api/palettes/generate AI"]:::server
-        Utils["lib/palette-utils.ts Algorithmic Logic"]:::server
-        Model["models/Palette.ts Schema Validator"]:::server
+    subgraph Server [Server Side API]
+        AuthRoute["Auth API Route"]:::server
+        PalettesRoute["Palettes CRUD Route"]:::server
+        ExtractRoute["Extract AI Route"]:::server
+        GenerateRoute["Generate AI Route"]:::server
+        Utils["Algorithmic Logic Utils"]:::server
+        Model["Schema Validator"]:::server
     end
 
-    subgraph External Services [External Integrations]
-        AzureOpenAI["Azure OpenAI (GPT-4o)"]:::external
-        AzureVision["Azure OpenAI Vision"]:::external
-        Mongo[("MongoDB Atlas Cluster")]:::external
-        OAuth["OAuth Providers (Google/Github)"]:::external
+    subgraph External [External Integrations]
+        AzureOpenAI["Azure OpenAI"]:::external
+        AzureVision["Azure Vision"]:::external
+        Mongo[("MongoDB Atlas")]:::external
+        OAuth["OAuth Providers"]:::external
     end
 
     %% Client Operations
@@ -41,9 +41,9 @@ graph TD
     AuthRoute <--> OAuth
     Context --> UI
 
-    UI -->|API Fetch (GET/PUT/DELETE)| PalettesRoute
-    UI -->|Multipart Image (POST)| ExtractRoute
-    UI -->|Mood string (POST)| GenerateRoute
+    UI -->|API CRUD Fetch| PalettesRoute
+    UI -->|Image Upload POST| ExtractRoute
+    UI -->|Mood string POST| GenerateRoute
 
     %% Server Operations
     PalettesRoute --> Model
@@ -53,8 +53,8 @@ graph TD
     GenerateRoute --> AzureOpenAI
 
     %% Fallback Logic
-    ExtractRoute -.->|API Failure Fallback| Utils
-    GenerateRoute -.->|API Failure Fallback| Utils
+    ExtractRoute -.->|API Fallback| Utils
+    GenerateRoute -.->|API Fallback| Utils
 ```
 
 ---
