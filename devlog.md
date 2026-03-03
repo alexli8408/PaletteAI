@@ -195,6 +195,7 @@ This file contains the heavy algorithmic lifting that occurs both client-side an
 An end-to-end view of the asynchronous execution when a user submits an image.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'actorBkg': '#e1f5fe', 'actorTextColor': '#000', 'actorLineColor': '#03a9f4', 'signalColor': '#aaa', 'signalTextColor': '#ccc', 'noteBkg': '#fff3e0', 'noteTextColor': '#000' }}}%%
 sequenceDiagram
     autonumber
 
@@ -238,6 +239,7 @@ sequenceDiagram
 How the client-side manipulates returned data arrays into finalized export codes.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'actorBkg': '#e1f5fe', 'actorTextColor': '#000', 'actorLineColor': '#03a9f4', 'signalColor': '#aaa', 'signalTextColor': '#ccc', 'noteBkg': '#fff3e0', 'noteTextColor': '#000' }}}%%
 sequenceDiagram
     autonumber
 
