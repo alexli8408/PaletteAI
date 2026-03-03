@@ -5,9 +5,31 @@ import AuthProvider from '@/components/AuthProvider';
 import './globals.css';
 
 export const metadata: Metadata = {
+    metadataBase: new URL('https://paletteai.app'),
     title: 'PaletteAI',
     description: 'Generate beautiful, harmonized color palettes using AI. Describe a mood, upload an image, or create manually. Built with Next.js, MongoDB, and Azure.',
     keywords: ['color palette', 'AI', 'design tool', 'color generator', 'palette generator'],
+    openGraph: {
+        title: 'PaletteAI',
+        description: 'Generate beautiful, harmonized color palettes using AI. Describe a mood, upload an image, or create manually.',
+        url: 'https://paletteai.app',
+        siteName: 'PaletteAI',
+        images: [
+            {
+                url: '/og-image.png',
+                width: 1200,
+                height: 630,
+                alt: 'PaletteAI – AI-Powered Color Palette Generator',
+            },
+        ],
+        type: 'website',
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'PaletteAI',
+        description: 'Generate beautiful, harmonized color palettes using AI.',
+        images: ['/og-image.png'],
+    },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }): React.JSX.Element {
