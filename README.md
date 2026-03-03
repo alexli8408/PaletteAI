@@ -74,6 +74,12 @@ npm start
 
 ---
 
+## Comprehensive Architecture
+
+For a deep dive into the engineering decisions, API data flows, sequence diagrams, and CSS module boundaries of PaletteAI, please refer to the extremely detailed [Architecture Devlog](devlog.md) located in the repository root.
+
+---
+
 ## Project Structure
 
 ```
