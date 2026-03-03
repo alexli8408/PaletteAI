@@ -15,25 +15,25 @@ graph TD
     classDef external fill:#e8f5e9,stroke:#4caf50,stroke-width:2px,color:#000
 
     subgraph Client [Client-Side (React/Next.js UI)]
-        UI[User Interface / Pages]:::client
-        State[React State & Hooks Hook]:::client
-        Context[NextAuth Session Provider]:::client
+        UI["User Interface / Pages"]:::client
+        State["React State & Hooks Hook"]:::client
+        Context["NextAuth Session Provider"]:::client
     end
 
     subgraph Server [Server-Side (Next.js API Routes & Server Components)]
-        AuthRoute[/api/auth/* API]:::server
-        PalettesRoute[/api/palettes/* CRUD]:::server
-        ExtractRoute[/api/palettes/extract AI]:::server
-        GenerateRoute[/api/palettes/generate AI]:::server
-        Utils[lib/palette-utils.ts Algorithmic Logic]:::server
-        Model[models/Palette.ts Schema Validator]:::server
+        AuthRoute["/api/auth/* API"]:::server
+        PalettesRoute["/api/palettes/* CRUD"]:::server
+        ExtractRoute["/api/palettes/extract AI"]:::server
+        GenerateRoute["/api/palettes/generate AI"]:::server
+        Utils["lib/palette-utils.ts Algorithmic Logic"]:::server
+        Model["models/Palette.ts Schema Validator"]:::server
     end
 
     subgraph External Services [External Integrations]
-        AzureOpenAI[Azure OpenAI (GPT-4o)]:::external
-        AzureVision[Azure OpenAI Vision]:::external
-        Mongo[(MongoDB Atlas Cluster)]:::external
-        OAuth[OAuth Providers (Google/Github)]:::external
+        AzureOpenAI["Azure OpenAI (GPT-4o)"]:::external
+        AzureVision["Azure OpenAI Vision"]:::external
+        Mongo[("MongoDB Atlas Cluster")]:::external
+        OAuth["OAuth Providers (Google/Github)"]:::external
     end
 
     %% Client Operations
@@ -149,18 +149,18 @@ graph TD
     classDef layout fill:#e8eaf6,stroke:#3f51b5,stroke-width:1px
     classDef ui fill:#e0f7fa,stroke:#00bcd4,stroke-width:1px
 
-    AppLayout[app/layout.tsx]:::layout --> AuthProv[components/AuthProvider.tsx]:::ui
-    AppLayout --> Nav[components/Navbar.tsx]:::ui
+    AppLayout["app/layout.tsx"]:::layout --> AuthProv["components/AuthProvider.tsx"]:::ui
+    AppLayout --> Nav["components/Navbar.tsx"]:::ui
 
-    HomePage[app/page.tsx]:::layout --> Nav
-    HomePage --> Dropzone[components/ImageDropzone.tsx]:::ui
+    HomePage["app/page.tsx"]:::layout --> Nav
+    HomePage --> Dropzone["components/ImageDropzone.tsx"]:::ui
 
-    SavedPage[app/saved/page.tsx]:::layout --> Nav
-    SavedPage --> Card[components/PaletteCard.tsx]:::ui
+    SavedPage["app/saved/page.tsx"]:::layout --> Nav
+    SavedPage --> Card["components/PaletteCard.tsx"]:::ui
 
-    PalettePage[app/palette/[id]/page.tsx]:::layout --> Nav
-    PalettePage --> Swatch[components/ColorSwatch.tsx]:::ui
-    PalettePage --> Export[components/ExportModal.tsx]:::ui
+    PalettePage["app/palette/[id]/page.tsx"]:::layout --> Nav
+    PalettePage --> Swatch["components/ColorSwatch.tsx"]:::ui
+    PalettePage --> Export["components/ExportModal.tsx"]:::ui
 ```
 
 - **`Navbar.tsx`**: A core sticky navigation bar. It utilizes `useSession()` from NextAuth.
