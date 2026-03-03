@@ -9,6 +9,7 @@ This document provides a highly detailed, engineering-focused exploration of the
 PaletteAI is a full-stack web application built on **Next.js 14+**. It leverages the modern **App Router** for rendering and fetching strategies (combining Server Components and Client Components). The backend logic is completely serverless, relying on Next.js API Routes (`app/api/*`) which connect directly to a cloud-hosted MongoDB cluster and Azure Cognitive Services.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryTextColor': '#000', 'lineColor': '#888', 'clusterBkg': '#222' }}}%%
 graph TD
     classDef client fill:#e1f5fe,stroke:#03a9f4,stroke-width:2px,color:#000
     classDef server fill:#fff3e0,stroke:#ff9800,stroke-width:2px,color:#000
@@ -64,6 +65,7 @@ graph TD
 The codebase is strictly separated by concern, ensuring that the UI remains decoupled from database logic and third-party AI integrations.
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryTextColor': '#000', 'lineColor': '#888', 'clusterBkg': '#222' }}}%%
 mindmap
   root((PaletteAI))
     app("app/ (Routing & API)")
@@ -145,6 +147,7 @@ The application requires an intuitive way for users to supply images.
 To prevent CSS specificity issues, the application strictly uses **CSS Modules** conventions (e.g., `Component.module.css`).
 
 ```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryTextColor': '#000', 'lineColor': '#888', 'clusterBkg': '#222' }}}%%
 graph TD
     classDef layout fill:#e8eaf6,stroke:#3f51b5,stroke-width:1px,color:#000
     classDef ui fill:#e0f7fa,stroke:#00bcd4,stroke-width:1px,color:#000
