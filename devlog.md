@@ -1,6 +1,6 @@
 # PaletteAI - Comprehensive Architecture & Devlog
 
-This document provides a highly detailed, engineering-focused exploration of the **PaletteAI** codebase. It outlines the architectural decisions, system components, routing structures, styling philosophy, AI prompt engineering, data management strategies, and the flow of data across the Next.js application, visualizing these relationships with comprehensive diagrams.
+This document provides a highly detailed, engineering-focused exploration of the **PaletteAI** codebase. It outlines the architectural decisions, system components, routing structures, styling philosophy, AI prompt engineering, authentication strategies, data management, and the flow of data across the Next.js application, visualizing these relationships with comprehensive diagrams.
 
 ---
 
@@ -171,17 +171,30 @@ graph TD
 - **`ColorSwatch.tsx`**: Features interactive state (`useState`, `onClick`) allowing the user to copy the hex code.
 - **`ExportModal.tsx`**: Allows data egress.
 
+### 4.3 Styling System (`globals.css` vs `*.module.css`)
+- **Variables**: `app/globals.css` exports raw `--color` properties onto the `:root` pseudo-class (e.g., `--background`, `--foreground`). These are global design tokens to maintain layout consistency.
+- **Encapsulation**: Components use `import styles from './Component.module.css';`. Next.js hashes these class names at compile time (e.g., `<div class="Component_container__7yvH1">`), ensuring that CSS written for the `NavBar` will fundamentally never overwrite or conflict with CSS written for the `PaletteCard`.
+
 ---
 
-## Core Server Logic & Mathematics (`lib/` and `models/`)
+## 🔒 5. Core Server Logic, Security & Authentication
 
-### 5.1 Database Reliability (`lib/mongodb.ts` & `models/Palette.ts`)
+### 5.1 NextAuth Implementation (`lib/auth.ts` & `app/api/auth/[...nextauth]/route.ts`)
+Authentication is handled explicitly using the lightweight `next-auth@beta` v5 implementation.
+- **Provider Choice**: Uses the Google OAuth provider exclusively (`clientId` and `clientSecret`).
+- **Session Strategy**: To eliminate database round-trips for every user refresh, the strategy is explicitly set to `'jwt'`.
+- **Token Augmentation (Callbacks)**:
+  The raw Google profile `sub` ID is deeply injected into the JWT token `token.id = profile.sub`.
+  The token is then hydrated into the session object during the `session()` callback. This guarantees that `session.user.id` is globally available to any client component without needing to manually decode the JWT.
+- **Client Hydration**: `app/layout.tsx` wraps the entire application DOM tree in `<AuthProvider>` (`components/AuthProvider.tsx`), instantiating the `<SessionProvider>` boundary. All child routes can immediately access the current user synchronously via `useSession()`.
+
+### 5.2 Database Reliability (`lib/mongodb.ts` & `models/Palette.ts`)
 - **Schema Validation**: The Mongoose Schema enforces that `colors` Arrays must contain strictly between 2 and 10 items.
 - **Sanitization**: All `hex` strings must match the rigorous regex `^#[0-9a-fA-F]{6}$`. This prevents malformed data from breaking downstream SVG or CSS generators.
 - **Indexing Strategy**: Exports indexes on `createdAt: -1` and compounded text indexes on `{ mood: 'text', name: 'text' }` allowing for incredibly fast full-text searching without Elasticsearch.
 - **Connection Caching**: Next.js hot-reloading (in development) and serverless scale-ups (in production) can instantiate thousands of database connections if uncached. `lib/mongodb.ts` leverages the Node.js `global` object to maintain a single cached Mongoose connection (`global.mongoose = { conn: null, promise: null }`).
 
-### 5.2 Algorithmic Generative Engine (`lib/palette-utils.ts`)
+### 5.3 Algorithmic Generative Engine (`lib/palette-utils.ts`)
 This file contains the heavy algorithmic lifting that occurs both client-side and server-side.
 - **Data Shape Conversions**: Functions like `hexToHsl` use complex branching mathematics to convert a `#RRGGBB` base-16 string into a 3D cylindrical-coordinate representation (`Hue`, `Saturation`, `Lightness`).
 - **Deterministic Generation Fallback**: `generatePaletteFromMood` guarantees that given the string "Ocean", it will hash the string into a numeric seed using bitwise operators (`hash = key.charCodeAt(i) + ((hash << 5) - hash)`), deriving a base hue algorithmically and mapping out 4 complementary offsets computationally.
@@ -267,4 +280,4 @@ sequenceDiagram
 
 ---
 
-*This document serves as the exhaustive architectural blueprint for PaletteAI, outlining how modern serverless functions, state-of-the-art vision models, mathematical color spaces, and persistent databases intertwine to create a seamless user experience.*
+*This document serves as the exhaustive architectural blueprint for PaletteAI, outlining how modern serverless functions, state-of-the-art vision models, mathematical color spaces, persistent databases, and secure JWT authentication intertwine to create a seamless user experience.*
