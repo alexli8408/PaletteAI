@@ -146,8 +146,8 @@ To prevent CSS specificity issues, the application strictly uses **CSS Modules**
 
 ```mermaid
 graph TD
-    classDef layout fill:#e8eaf6,stroke:#3f51b5,stroke-width:1px
-    classDef ui fill:#e0f7fa,stroke:#00bcd4,stroke-width:1px
+    classDef layout fill:#e8eaf6,stroke:#3f51b5,stroke-width:1px,color:#000
+    classDef ui fill:#e0f7fa,stroke:#00bcd4,stroke-width:1px,color:#000
 
     AppLayout["app/layout.tsx"]:::layout --> AuthProv["components/AuthProvider.tsx"]:::ui
     AppLayout --> Nav["components/Navbar.tsx"]:::ui
