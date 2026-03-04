@@ -283,7 +283,7 @@ export default function GeneratePage(): React.JSX.Element {
                             </div>
                         </div>
 
-                        <div className={`${styles.swatches} stagger`}>
+                        <div className={styles.swatches}>
                             {palette.colors.map((color, i) => (
                                 <div key={i} className={styles.swatchWrapper}>
                                     <ColorSwatch hex={color.hex} name={color.name} size="large" />
