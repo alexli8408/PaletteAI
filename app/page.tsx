@@ -249,14 +249,6 @@ export default function GeneratePage(): React.JSX.Element {
                         <ImageDropzone onImageUpload={handleImageUpload} isLoading={isLoading} />
                     )}
 
-                    {activeTab === 'manual' && (
-                        <div className={styles.manualInput}>
-                            <button className="btn btn-secondary" onClick={handleRandom}>
-                                <RefreshCw size={16} />
-                                Generate Random Palette
-                            </button>
-                        </div>
-                    )}
 
                 </div>
 
