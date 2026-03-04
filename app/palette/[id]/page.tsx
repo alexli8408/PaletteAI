@@ -53,9 +53,7 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
         return (
             <div className={`page ${styles.page}`}>
                 <div className="container">
-                    <div className={styles.loading}>
-                        <p>Loading palette...</p>
-                    </div>
+                    <div className={styles.loading}></div>
                 </div>
             </div>
         );
