@@ -251,10 +251,9 @@ export default function GeneratePage(): React.JSX.Element {
 
                     {activeTab === 'manual' && (
                         <div className={styles.manualInput}>
-                            <p className={styles.manualHint}>Click the color swatches below to edit, or start with a random palette:</p>
                             <button className="btn btn-secondary" onClick={handleRandom}>
                                 <RefreshCw size={16} />
-                                Generate Random
+                                Generate Random Palette
                             </button>
                         </div>
                     )}
