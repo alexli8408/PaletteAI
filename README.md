@@ -1,32 +1,34 @@
 # PaletteAI
 
-AI-powered color palette generator. Describe a mood, enter a keyword, or upload an image to generate harmonized color palettes instantly.
+AI-powered color palette generator. Enter a keyword, upload an image, or create manually to create a palette.
 
-**Live Demo:** [paletteai.app](https://paletteai.app)
+**Live:** [paletteai.app](https://paletteai.app)
 
 ---
 
 ## Features
 
-- **Keyword Generation** -- Enter any keyword, mood, or character name and get a curated 5-color palette powered by GPT-4o
-- **Image Extraction** -- Upload an image and let vision AI extract the dominant colors into a cohesive palette
-- **Save and Manage** -- Authenticate with Google to save, browse, and delete your palette collection
-- **Export** -- Download or copy palettes as CSS variables, JSON, or SVG
-- **Responsive** -- Fully responsive layout across desktop and mobile
+- **Keyword Generation** — Type any keyword, mood, or character name and get a curated 5-color palette powered by Azure OpenAI (GPT-4o)
+- **Image Extraction** — Upload an image and let Azure AI Vision extract the dominant colors into a palette
+- **Manual Creation** — Pick and tweak individual colors with a built-in color picker, or start from a randomly generated palette
+- **Save & Manage** — Sign in with Google to save, search, and delete your palettes
+- **Export** — Copy or download palettes as CSS variables, JSON, or SVG
+- **Responsive** — Works on desktop and mobile
 
 ---
 
 ## Tech Stack
 
-| Layer         | Technology                          |
-| ------------- | ----------------------------------- |
-| Framework     | Next.js 16 (App Router)             |
-| Language      | TypeScript                          |
-| Styling       | CSS Modules                         |
-| AI            | Azure OpenAI (GPT-4o)               |
-| Database      | MongoDB with Mongoose               |
-| Auth          | NextAuth.js v5 (Google OAuth)       |
-| Hosting       | Vercel                              |
+| Layer     | Technology                    |
+| --------- | ----------------------------- |
+| Framework | Next.js 16 (App Router)       |
+| Language  | TypeScript                    |
+| Styling   | CSS Modules + custom tokens   |
+| AI        | Azure OpenAI (GPT-4o)         |
+| Vision    | Azure AI Vision               |
+| Database  | MongoDB Atlas + Mongoose      |
+| Auth      | NextAuth.js v5 (Google OAuth) |
+| Hosting   | Vercel                        |
 
 ---
 
@@ -37,11 +39,11 @@ AI-powered color palette generator. Describe a mood, enter a keyword, or upload 
 - Node.js 18+
 - MongoDB instance (local or Atlas)
 - Azure OpenAI resource with a GPT-4o deployment
-- Google OAuth credentials (Cloud Console)
+- Google OAuth credentials
 
 ### Environment Variables
 
-Copy `.env.example` to `.env.local` and fill in your values:
+Copy `.env.example` to `.env.local`:
 
 ```env
 MONGODB_URI=mongodb://localhost:27017/paletteai
@@ -56,27 +58,14 @@ NEXTAUTH_SECRET=your_nextauth_secret
 NEXTAUTH_URL=http://localhost:3000
 ```
 
-### Install and Run
+### Run
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
-### Production Build
-
-```bash
-npm run build
-npm start
-```
-
----
-
-## Comprehensive Architecture
-
-For a deep dive into the engineering decisions, API data flows, sequence diagrams, and CSS module boundaries of PaletteAI, please refer to the extremely detailed [Architecture Devlog](devlog.md) located in the repository root.
+Open [localhost:3000](http://localhost:3000).
 
 ---
 
@@ -84,31 +73,31 @@ For a deep dive into the engineering decisions, API data flows, sequence diagram
 
 ```
 app/
-  page.tsx                Home page with palette generation UI
-  saved/page.tsx          Saved palettes gallery
-  palette/[id]/page.tsx   Individual palette detail view
+  page.tsx                  Home — palette generation UI
+  saved/page.tsx            Saved palette gallery
+  palette/[id]/page.tsx     Palette detail view
   api/
-    palettes/             CRUD, generate, and extract endpoints
-    auth/                 NextAuth catch-all route
+    palettes/               CRUD, generate, and extract endpoints
+    auth/                   NextAuth route
 
 components/
-  AuthProvider.tsx        NextAuth session provider
-  Navbar.tsx              Navigation bar with auth controls
-  PaletteCard.tsx         Palette preview card
-  ColorSwatch.tsx         Color swatch with hex/RGB/HSL display and copy
-  ExportModal.tsx         Export dialog for CSS, JSON, and SVG
-  ImageDropzone.tsx       Drag-and-drop image upload
+  Navbar.tsx                Top bar with auth controls
+  ColorSwatch.tsx           Color tile with hex/RGB/HSL and copy
+  ExportModal.tsx           Export dialog (CSS, JSON, SVG)
+  ImageDropzone.tsx         Drag-and-drop image upload
+  PaletteCard.tsx           Palette preview card
+  AuthProvider.tsx          NextAuth session wrapper
 
 lib/
-  palette-utils.ts        Color conversion, naming, and export utilities
-  mongodb.ts              Mongoose connection with caching
-  auth.ts                 NextAuth configuration
+  palette-utils.ts          Color conversion, naming, harmony, and export
+  mongodb.ts                Mongoose connection
+  auth.ts                   NextAuth config
 
 models/
-  Palette.ts              Mongoose schema and model
+  Palette.ts                Mongoose schema
 
 types/
-  index.ts                Shared TypeScript interfaces
+  index.ts                  Shared TypeScript interfaces
 ```
 
 ---
