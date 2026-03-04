@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Sparkles, Image as ImageIcon, Save, Download } from 'lucide-react';
+import { Sparkles, Image as ImageIcon, Sliders, RefreshCw, Save, Download } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ColorSwatch from '@/components/ColorSwatch';
 import ImageDropzone from '@/components/ImageDropzone';
 import ExportModal from '@/components/ExportModal';
-
+import { generateRandomPalette, getColorName } from '@/lib/palette-utils';
 import type { Color } from '@/types';
 import styles from './page.module.css';
 
@@ -18,7 +18,7 @@ interface GeneratedPalette {
     source: string;
 }
 
-type TabId = 'mood' | 'image';
+type TabId = 'mood' | 'image' | 'manual';
 
 export default function GeneratePage(): React.JSX.Element {
     const { status: authStatus } = useSession();
@@ -82,7 +82,26 @@ export default function GeneratePage(): React.JSX.Element {
         }
     };
 
+    // Manual color edit
+    const handleColorChange = (index: number, hex: string): void => {
+        if (!palette) return;
+        const newColors = [...palette.colors];
+        newColors[index] = { hex, name: getColorName(hex) };
+        setPalette({ ...palette, colors: newColors, source: 'manual' });
+    };
 
+    // Random palette
+    const handleRandom = (): void => {
+        const colors = generateRandomPalette();
+        setPalette({
+            name: 'Random Palette',
+            colors,
+            mood: 'random',
+            source: 'manual',
+        });
+        setPaletteName('Random Palette');
+        toast.success('Random palette generated!');
+    };
 
     // Save to gallery
     const handleSave = async (): Promise<void> => {
@@ -123,6 +142,7 @@ export default function GeneratePage(): React.JSX.Element {
     const tabs: { id: TabId; label: string; icon: React.ReactNode }[] = [
         { id: 'mood', label: 'Enter Keyword', icon: <Sparkles size={15} /> },
         { id: 'image', label: 'Upload Image', icon: <ImageIcon size={15} /> },
+        { id: 'manual', label: 'Create Manually', icon: <Sliders size={15} /> },
     ];
 
     return (
@@ -145,7 +165,7 @@ export default function GeneratePage(): React.JSX.Element {
                         PaletteAI
                     </h1>
                     <p className={styles.subtitle}>
-                        Enter a keyword or upload an image to generate a palette.
+                        Enter a keyword, upload an image, or create manually
                     </p>
                 </div>
 
@@ -224,6 +244,15 @@ export default function GeneratePage(): React.JSX.Element {
                         <ImageDropzone onImageUpload={handleImageUpload} isLoading={isLoading} />
                     )}
 
+                    {activeTab === 'manual' && (
+                        <div className={styles.manualInput}>
+                            <p className={styles.manualHint}>Click the color swatches below to edit, or start with a random palette:</p>
+                            <button className="btn btn-secondary" onClick={handleRandom}>
+                                <RefreshCw size={16} />
+                                Generate Random
+                            </button>
+                        </div>
+                    )}
 
                 </div>
 
@@ -240,6 +269,9 @@ export default function GeneratePage(): React.JSX.Element {
                             />
                             <div className={styles.resultActions}>
 
+                                <button className="btn btn-secondary btn-icon" onClick={handleRandom} title="Regenerate">
+                                    <RefreshCw size={16} />
+                                </button>
                                 <button className="btn btn-secondary" onClick={() => setShowExport(true)}>
                                     <Download size={16} />
                                     Export
@@ -259,6 +291,14 @@ export default function GeneratePage(): React.JSX.Element {
                             {palette.colors.map((color, i) => (
                                 <div key={i} className={styles.swatchWrapper}>
                                     <ColorSwatch hex={color.hex} name={color.name} size="large" />
+                                    {activeTab === 'manual' && (
+                                        <input
+                                            type="color"
+                                            className={styles.colorPicker}
+                                            value={color.hex}
+                                            onChange={(e) => handleColorChange(i, e.target.value)}
+                                        />
+                                    )}
                                 </div>
                             ))}
                         </div>

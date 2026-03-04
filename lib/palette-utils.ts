@@ -261,3 +261,13 @@ export function exportAsSVG(colors: Color[]): string {
 
     return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">\n${rects}\n${labels}\n</svg>`;
 }
+
+// --- Random Palette Generation ---
+
+export function generateRandomPalette(): Color[] {
+    const baseHue = Math.random() * 360;
+    const baseSat = 50 + Math.random() * 40;
+    const baseLit = 40 + Math.random() * 25;
+    const hexColors = generateFromHue(baseHue, baseSat, baseLit);
+    return hexColors.map(hex => ({ hex, name: getColorName(hex) }));
+}
