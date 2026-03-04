@@ -7,11 +7,11 @@ import './globals.css';
 export const metadata: Metadata = {
     metadataBase: new URL('https://paletteai.app'),
     title: 'PaletteAI',
-    description: 'Enter a keyword or upload an image to generate a palette.',
+    description: 'Enter a keyword, upload an image, or create manually to make a palette.',
     keywords: ['color palette', 'AI', 'design tool', 'color generator', 'palette generator'],
     openGraph: {
         title: 'PaletteAI',
-        description: 'Enter a keyword or upload an image to generate a palette.',
+        description: 'Enter a keyword, upload an image, or create manually to make a palette.',
         url: 'https://paletteai.app',
         siteName: 'PaletteAI',
         images: [
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     twitter: {
         card: 'summary_large_image',
         title: 'PaletteAI',
-        description: 'Enter a keyword or upload an image to generate a palette.',
+        description: 'Enter a keyword, upload an image, or create manually to make a palette.',
         images: ['/og-image.png'],
     },
 };
