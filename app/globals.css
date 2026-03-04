@@ -25,19 +25,12 @@
   --accent-glow: rgba(124, 58, 237, 0.3);
 
   --gradient-primary: linear-gradient(135deg, #7c3aed, #a855f7, #ec4899);
-  --gradient-secondary: linear-gradient(135deg, #06b6d4, #7c3aed, #a855f7);
-  --gradient-warm: linear-gradient(135deg, #f59e0b, #ec4899, #a855f7);
-  --gradient-cool: linear-gradient(135deg, #06b6d4, #3b82f6, #7c3aed);
-  --gradient-hero: linear-gradient(180deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
 
   --border-color: rgba(255, 255, 255, 0.06);
   --border-hover: rgba(255, 255, 255, 0.12);
   --border-accent: rgba(124, 58, 237, 0.3);
 
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
-  --shadow-glow: 0 0 30px rgba(124, 58, 237, 0.15);
 
   /* Typography */
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;

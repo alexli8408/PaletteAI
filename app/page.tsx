@@ -30,24 +30,25 @@ export default function GeneratePage(): React.JSX.Element {
     const [paletteName, setPaletteName] = useState<string>('');
 
     // Mood / Keyword generation
-    const handleGenerate = async (): Promise<void> => {
-        if (!mood.trim()) return;
+    const handleGenerate = async (keyword?: string): Promise<void> => {
+        const term = keyword || mood.trim();
+        if (!term) return;
 
+        if (keyword) setMood(keyword);
         setIsLoading(true);
         try {
             const res = await fetch('/api/palettes/generate', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ mood: mood.trim() }),
+                body: JSON.stringify({ mood: term }),
             });
 
             if (!res.ok) throw new Error('Failed to generate');
 
             const data: GeneratedPalette = await res.json();
             setPalette(data);
-            setPaletteName(data.name || `${mood.trim()} Palette`);
+            setPaletteName(data.name || `${term} Palette`);
             toast.success('Palette generated!');
-
         } catch (error) {
             toast.error('Failed to generate palette');
             console.error(error);
@@ -206,7 +207,7 @@ export default function GeneratePage(): React.JSX.Element {
                                 />
                                 <button
                                     className="btn btn-primary"
-                                    onClick={handleGenerate}
+                                    onClick={() => handleGenerate()}
                                     disabled={isLoading || !mood.trim()}
                                 >
                                     <Sparkles size={18} />
@@ -219,24 +220,8 @@ export default function GeneratePage(): React.JSX.Element {
                                     <button
                                         key={s}
                                         className={styles.suggestion}
-                                        onClick={() => {
-                                            setMood(s);
-                                            setIsLoading(true);
-                                            fetch('/api/palettes/generate', {
-                                                method: 'POST',
-                                                headers: { 'Content-Type': 'application/json' },
-                                                body: JSON.stringify({ mood: s }),
-                                            })
-                                                .then((r) => r.json())
-                                                .then((data: GeneratedPalette) => {
-                                                    setPalette(data);
-                                                    setPaletteName(data.name || `${s} Palette`);
-                                                    toast.success('Palette generated!');
-
-                                                })
-                                                .catch(() => toast.error('Failed'))
-                                                .finally(() => setIsLoading(false));
-                                        }}
+                                        disabled={isLoading}
+                                        onClick={() => handleGenerate(s)}
                                     >
                                         {s}
                                     </button>
@@ -248,8 +233,6 @@ export default function GeneratePage(): React.JSX.Element {
                     {activeTab === 'image' && (
                         <ImageDropzone onImageUpload={handleImageUpload} isLoading={isLoading} />
                     )}
-
-
                 </div>
 
                 {/* Result */}
@@ -264,7 +247,6 @@ export default function GeneratePage(): React.JSX.Element {
                                 onChange={(e) => setPaletteName(e.target.value)}
                             />
                             <div className={styles.resultActions}>
-
                                 <button className="btn btn-secondary btn-icon" onClick={handleRandom} title="Regenerate">
                                     <RefreshCw size={16} />
                                 </button>
@@ -292,21 +274,15 @@ export default function GeneratePage(): React.JSX.Element {
                                             type="color"
                                             className={styles.colorPicker}
                                             value={color.hex}
+                                            title="Pick a color"
                                             onChange={(e) => handleColorChange(i, e.target.value)}
                                         />
                                     )}
                                 </div>
                             ))}
                         </div>
-
-
                     </div>
                 )}
-
-
-
-
-
             </div>
 
             {/* Export Modal */}

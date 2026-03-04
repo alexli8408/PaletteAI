@@ -2,6 +2,7 @@
 
 import { useState, useEffect, use } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ArrowLeft, Download, Trash2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import ColorSwatch from '@/components/ColorSwatch';
@@ -16,6 +17,7 @@ interface PaletteDetailPageProps {
 
 export default function PaletteDetailPage({ params }: PaletteDetailPageProps): React.JSX.Element {
     const { id } = use(params);
+    const router = useRouter();
     const [palette, setPalette] = useState<Palette | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [showExport, setShowExport] = useState<boolean>(false);
@@ -43,7 +45,7 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
         try {
             await fetch(`/api/palettes/${id}`, { method: 'DELETE' });
             toast.success('Palette deleted!');
-            setTimeout(() => { window.location.href = '/saved'; }, 1000);
+            setTimeout(() => { router.push('/saved'); }, 1000);
         } catch {
             toast.error('Failed to delete');
         }
@@ -103,7 +105,6 @@ export default function PaletteDetailPage({ params }: PaletteDetailPageProps): R
                         <ColorSwatch key={i} hex={color.hex} name={color.name} size="large" />
                     ))}
                 </div>
-
 
             </div>
 

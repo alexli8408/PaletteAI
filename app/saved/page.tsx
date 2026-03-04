@@ -43,6 +43,22 @@ export default function GalleryPage(): React.JSX.Element {
         }
     };
 
+    const searchBar = (
+        <div className={styles.controls}>
+            <form className={styles.searchForm} onSubmit={(e) => e.preventDefault()}>
+                <Search size={18} className={styles.searchIcon} />
+                <input
+                    type="text"
+                    className={`input ${styles.searchInput}`}
+                    placeholder="Search your palettes..."
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    disabled={authStatus !== 'authenticated'}
+                />
+            </form>
+        </div>
+    );
+
     return (
         <div className={`page ${styles.page}`}>
             <div className="container">
@@ -50,57 +66,30 @@ export default function GalleryPage(): React.JSX.Element {
                     <h1 className={styles.title}>Saved</h1>
                 </div>
 
-                {authStatus === 'unauthenticated' && (
-                    <>
-                        <div className={styles.controls}>
-                            <form className={styles.searchForm} onSubmit={(e) => e.preventDefault()}>
-                                <Search size={18} className={styles.searchIcon} />
-                                <input
-                                    type="text"
-                                    className={`input ${styles.searchInput}`}
-                                    placeholder="Search your palettes..."
-                                    disabled
-                                />
-                            </form>
-                        </div>
-                        <div className={styles.empty}>
-                            <Filter size={48} />
-                            <p>No palettes yet.</p>
-                        </div>
-                    </>
+                {searchBar}
+
+                {isLoading && (
+                    <div className={styles.loading}>
+                        <div className={styles.spinner} />
+                    </div>
                 )}
 
-                {authStatus === 'authenticated' && (
-                    <>
-                        <div className={styles.controls}>
-                            <form className={styles.searchForm} onSubmit={(e) => e.preventDefault()}>
-                                <Search size={18} className={styles.searchIcon} />
-                                <input
-                                    type="text"
-                                    className={`input ${styles.searchInput}`}
-                                    placeholder="Search your palettes..."
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                />
-                            </form>
-                        </div>
+                {!isLoading && palettes.length > 0 && (
+                    <div className={styles.grid}>
+                        {palettes.map((palette, i) => (
+                            <PaletteCard
+                                key={palette._id || i}
+                                palette={palette}
+                            />
+                        ))}
+                    </div>
+                )}
 
-                        {palettes.length > 0 ? (
-                            <div className={styles.grid}>
-                                {palettes.map((palette, i) => (
-                                    <PaletteCard
-                                        key={palette._id || i}
-                                        palette={palette}
-                                    />
-                                ))}
-                            </div>
-                        ) : (
-                            <div className={styles.empty}>
-                                <Filter size={48} />
-                                <p>No palettes yet.</p>
-                            </div>
-                        )}
-                    </>
+                {!isLoading && palettes.length === 0 && (
+                    <div className={styles.empty}>
+                        <Filter size={48} />
+                        <p>No palettes yet.</p>
+                    </div>
                 )}
             </div>
         </div>

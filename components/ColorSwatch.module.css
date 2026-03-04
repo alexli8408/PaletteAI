@@ -14,7 +14,7 @@
 }
 
 /* Sizes */
-.default {
+.medium {
     height: 120px;
     flex: 1;
     min-width: 80px;
@@ -109,7 +109,7 @@
 }
 
 @media (max-width: 768px) {
-    .default {
+    .medium {
         height: 80px;
         min-width: 60px;
     }

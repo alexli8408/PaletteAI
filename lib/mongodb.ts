@@ -2,9 +2,6 @@ import mongoose, { type Mongoose } from 'mongoose';
 
 const MONGODB_URI: string = process.env.MONGODB_URI || 'mongodb://localhost:27017/paletteai';
 
-if (!MONGODB_URI) {
-    throw new Error('Please define the MONGODB_URI environment variable');
-}
 
 interface MongooseCache {
     conn: Mongoose | null;
