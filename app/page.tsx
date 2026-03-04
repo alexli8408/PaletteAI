@@ -176,7 +176,12 @@ export default function GeneratePage(): React.JSX.Element {
                             <button
                                 key={tab.id}
                                 className={`tab ${activeTab === tab.id ? 'active' : ''}`}
-                                onClick={() => setActiveTab(tab.id)}
+                                onClick={() => {
+                                    setActiveTab(tab.id);
+                                    if (tab.id === 'manual' && !palette) {
+                                        handleRandom();
+                                    }
+                                }}
                             >
                                 {tab.icon}
                                 {tab.label}
